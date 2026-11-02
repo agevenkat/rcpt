@@ -5,7 +5,7 @@ import type { AgentAdapter, ParseResult } from './adapters/types.js';
 import type { AgentSession, Confidence, Evidence, FileAttribution, Receipt, TestStatus } from './types.js';
 import { RECEIPT_SCHEMA_VERSION } from './types.js';
 import { commitAddedLines, commitMeta, git, parseDiffAdded, repoRoot, worktreeRoots, type AddedLine } from './git.js';
-import { isUnder, normPath, relTo } from './paths.js';
+import { canonical, isUnder, normPath, relTo } from './paths.js';
 import { hashLine } from './util/lines.js';
 import { isTestCommand } from './util/test-commands.js';
 import { compilePatterns, DEFAULT_IGNORE, globToRegExp, type RcptConfig } from './config.js';
@@ -107,13 +107,16 @@ async function attributeCore(
   // 2. AI-written line hashes per repo-relative file, tagged with the session that wrote them.
   const aiLines = new Map<string, Map<string, number[]>>(); // file -> hash -> session indexes (stack)
   const touched = sessions.map(() => new Set<string>());
+  // normPath case-folds on Windows; map back to the spelling git uses so lookups into the diff work.
+  const diffSpelling = new Map([...diff.keys()].map((k) => [canonical(k), k]));
   sessions.forEach((s, i) => {
     for (const e of s.fileEdits) {
       if (!inWin(e.timestamp)) continue;
       const p = normPath(e.path);
       const r = roots.find((x) => isUnder(p, x));
       if (!r) continue;
-      const rel = relTo(r, p);
+      const relFolded = relTo(r, p);
+      const rel = diffSpelling.get(canonical(relFolded)) ?? relFolded;
       touched[i]!.add(rel);
       const byHash = aiLines.get(rel) ?? new Map<string, number[]>();
       aiLines.set(rel, byHash);
@@ -276,7 +279,7 @@ export function effectiveCwd(cmd: string, cwd: string | null, home = os.homedir(
   let dir = cwd;
   const resolve = (p: string) => {
     const t = p.replace(/^["']|["']$/g, '').replace(/^~(?=\/|$)/, home);
-    return path.isAbsolute(t) ? t : dir ? path.resolve(dir, t) : null;
+    return path.isAbsolute(t) ? path.resolve(t) : dir ? path.resolve(dir, t) : null;
   };
   let rest = cmd.trimStart();
   for (;;) {

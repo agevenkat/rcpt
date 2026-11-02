@@ -1,8 +1,9 @@
 import { execFileSync } from 'node:child_process';
 
-export function git(cwd: string, args: string[]): string {
+export function git(cwd: string, args: string[], env?: NodeJS.ProcessEnv): string {
   return execFileSync('git', ['-c', 'core.quotepath=off', ...args], {
     cwd,
+    env: env ? { ...process.env, ...env } : undefined,
     encoding: 'utf8',
     maxBuffer: 512 * 1024 * 1024,
     stdio: ['ignore', 'pipe', 'pipe'],

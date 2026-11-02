@@ -10,9 +10,10 @@ import path from "path";
 
 // src/git.ts
 import { execFileSync } from "child_process";
-function git(cwd, args) {
+function git(cwd, args, env) {
   return execFileSync("git", ["-c", "core.quotepath=off", ...args], {
     cwd,
+    env: env ? { ...process.env, ...env } : void 0,
     encoding: "utf8",
     maxBuffer: 512 * 1024 * 1024,
     stdio: ["ignore", "pipe", "pipe"]

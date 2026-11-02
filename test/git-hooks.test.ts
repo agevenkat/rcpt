@@ -284,7 +284,7 @@ describe('receipt sharing through a remote', () => {
     await waitFor(() => readReceipt(a, first.sha));
     write(path.join(a, 'c.txt'), 'c2\n');
     gitIn(a, ['add', '-A']);
-    spawnSync('git', ['commit', '-q', '--amend', '-m', 'c amended'], { cwd: a, env: { ...process.env, ...env, GIT_CONFIG_GLOBAL: path.join(os.tmpdir(), 'rcpt-empty-gitconfig') } });
+    gitIn(a, ['commit', '-q', '--amend', '-m', 'c amended'], env);
     const amended = gitIn(a, ['rev-parse', 'HEAD']).trim();
     expect(amended).not.toBe(first.sha);
     const r = await waitFor(() => {

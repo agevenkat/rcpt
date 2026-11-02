@@ -4,10 +4,10 @@ import { attributeCommit } from '../src/attribute.js';
 import { createAdapters } from '../src/adapters/index.js';
 import { DEFAULT_CONFIG } from '../src/config.js';
 import { loadPricing } from '../src/cost.js';
-import { writeReceipt } from '../src/notes.js';
+import { readReceipt, writeReceipt } from '../src/notes.js';
 import { buildReport, type ReportData } from '../src/report/data.js';
 import { renderHtml } from '../src/report/html.js';
-import { at, claudeSession, commitAt, initRepo, tmpDir, write } from './helpers.js';
+import { at, claudeSession, commitAt, gitIn, initRepo, tmpDir, write } from './helpers.js';
 
 const NOW = new Date('2026-11-01T12:00:00Z');
 const T0 = new Date(NOW.getTime() - 30 * 86_400_000);
@@ -90,5 +90,29 @@ describe('report', () => {
     expect(html).toContain('How these numbers are computed');
     expect(html).toContain('no receipt');
     expect(html.match(/<script>/g)).toHaveLength(1); // only our tooltip script
+  });
+});
+
+describe('notes without a configured git identity', () => {
+  it('falls back to an rcpt identity instead of failing (fresh machines, CI)', async () => {
+    const repo = tmpDir('noident');
+    initRepo(repo);
+    write(path.join(repo, 'a.txt'), 'a\n');
+    const sha = commitAt(repo, new Date('2026-10-01T00:00:00Z'), 'a');
+    gitIn(repo, ['config', 'user.useConfigOnly', 'true']);
+    const saved = { g: process.env.GIT_CONFIG_GLOBAL, s: process.env.GIT_CONFIG_NOSYSTEM };
+    process.env.GIT_CONFIG_GLOBAL = path.join(tmpDir('emptycfg'), 'none');
+    process.env.GIT_CONFIG_NOSYSTEM = '1';
+    for (const k of ['GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL']) delete process.env[k];
+    try {
+      const r = await attributeCommit({ repoDir: repo, rev: sha, adapters: [], config: DEFAULT_CONFIG, pricing: loadPricing() });
+      await writeReceipt(repo, sha, r);
+      expect(readReceipt(repo, sha)?.commitSha).toBe(sha);
+      expect(gitIn(repo, ['log', '-1', '--format=%an <%ae>', 'refs/notes/rcpt']).trim()).toBe('rcpt <rcpt@localhost>');
+    } finally {
+      process.env.GIT_CONFIG_GLOBAL = saved.g;
+      if (saved.s === undefined) delete process.env.GIT_CONFIG_NOSYSTEM;
+      else process.env.GIT_CONFIG_NOSYSTEM = saved.s;
+    }
   });
 });

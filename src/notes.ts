@@ -69,14 +69,29 @@ export function readAllReceipts(root: string): Map<string, Receipt> {
   return out;
 }
 
+/**
+ * `git notes add`/`merge` create commits on the notes ref, which need an identity. Use the user's when git
+ * has one; otherwise (CI, fresh machines) fall back to a fixed rcpt identity instead of failing silently.
+ */
+function notesEnv(root: string): NodeJS.ProcessEnv | undefined {
+  try {
+    git(root, ['var', 'GIT_COMMITTER_IDENT']);
+    git(root, ['var', 'GIT_AUTHOR_IDENT']);
+    return undefined;
+  } catch {
+    return { GIT_AUTHOR_NAME: 'rcpt', GIT_AUTHOR_EMAIL: 'rcpt@localhost', GIT_COMMITTER_NAME: 'rcpt', GIT_COMMITTER_EMAIL: 'rcpt@localhost' };
+  }
+}
+
 /** Write (or replace) the receipt note on a commit. Retries briefly if another rcpt process holds the notes lock. */
 export async function writeReceipt(root: string, sha: string, receipt: Receipt): Promise<void> {
   const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'rcpt-note-')), 'note.json');
   fs.writeFileSync(tmp, JSON.stringify(receipt, null, 2) + '\n');
+  const env = notesEnv(root);
   try {
     for (let attempt = 0; ; attempt++) {
       try {
-        git(root, ['notes', `--ref=${NOTES_REF}`, 'add', '-f', '-F', tmp, sha]);
+        git(root, ['notes', `--ref=${NOTES_REF}`, 'add', '-f', '-F', tmp, sha], env);
         return;
       } catch (err) {
         if (attempt >= 5 || !/lock|already exists|cannot update/i.test(String((err as { stderr?: unknown }).stderr ?? err))) throw err;
@@ -106,6 +121,6 @@ export function syncNotes(root: string, remote: string): void {
   git(root, ['fetch', '--no-write-fetch-head', remote, `+refs/notes/rcpt*:refs/notes/remotes/${remote}/rcpt*`]);
   const hasTheirs = git(root, ['for-each-ref', '--format=%(refname)', theirs]).trim() !== '';
   const hasOurs = git(root, ['for-each-ref', '--format=%(refname)', NOTES_REF]).trim() !== '';
-  if (hasTheirs) git(root, ['notes', `--ref=${NOTES_REF}`, 'merge', '-q', '-s', 'ours', theirs]);
+  if (hasTheirs) git(root, ['notes', `--ref=${NOTES_REF}`, 'merge', '-q', '-s', 'ours', theirs], notesEnv(root));
   if (hasOurs || hasTheirs) git(root, ['push', '--no-verify', '-q', remote, `${NOTES_REF}:${NOTES_REF}`]);
 }
