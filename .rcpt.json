@@ -1,0 +1,8 @@
+{
+  "graceMinutes": 5,
+  "rootLookbackDays": 7,
+  "testPatterns": [],
+  "storeFullPrompts": false,
+  "trailer": false,
+  "ignore": []
+}

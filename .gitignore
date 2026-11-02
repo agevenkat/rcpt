@@ -3,3 +3,4 @@ node_modules/
 coverage/
 *.log
 rcpt-report.html
+.claude/settings.local.json
