@@ -18,7 +18,7 @@
         "ran-commit"
       ],
       "aiLinesAdded": 13,
-      "estimatedCostUsd": 1.039949
+      "estimatedCostUsd": 1.205899
     },
     {
       "id": "9211d2d3-b733-4032-88b8-77cca379414e",
@@ -63,14 +63,14 @@
     "command": null
   },
   "estimatedCostUsd": {
-    "amount": 1.039949,
+    "amount": 1.205899,
     "confidence": "medium",
     "unpricedModels": [],
     "pricingVersion": "2026-11-02"
   },
   "humanEditedAfterAi": false,
   "isMerge": false,
-  "createdAt": "2026-11-02T10:56:44.027Z",
+  "createdAt": "2026-11-02T10:57:33.883Z",
   "generator": {
     "name": "rcpt",
     "version": "0.1.0"
