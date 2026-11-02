@@ -18,7 +18,7 @@
         "ran-commit"
       ],
       "aiLinesAdded": 54,
-      "estimatedCostUsd": 1.998879
+      "estimatedCostUsd": 2.129142
     },
     {
       "id": "9211d2d3-b733-4032-88b8-77cca379414e",
@@ -27,15 +27,15 @@
       "models": [
         "gemma-4-31b-it"
       ],
-      "confidence": "medium",
+      "confidence": "low",
       "evidence": [
-        "ran-commit"
+        "time-window"
       ],
       "aiLinesAdded": 0,
-      "estimatedCostUsd": 0
+      "estimatedCostUsd": null
     }
   ],
-  "promptSummary": "mkdir -p ~/gemini-rcpt-test && cd ~/gemini-rcpt-test && git init -q && echo \"# test\" > README.md && git add -A && git commit -qm init gemin… (+1 more)",
+  "promptSummary": "go",
   "filesAttributed": [
     {
       "path": "src/attribute.ts",
@@ -84,14 +84,14 @@
     "command": "python3 - <<'EOF'\ndef sub(p,a,b):\n    s=open(p).read(); assert a in s,(p,a); open(p,'w').write(s.replace(a,b,1))\nsub('src/pr-summary.ts',\"\"\"      const lines = `${r.totals.unknownLines ? '?' : r.totals.aiLinesAdded} / ${r.totals.totalLinesAdded}`;\"\"\",\n\"\"\"      const t = r.totals;\n      const ai = !t.unknownLines ? String(t.aiLinesAdded) : t.aiLinesAdded ? `${t.aiLinesAdded}+?` : '?';\n      const lines = `${ai} / ${t.totalLinesAdded}`;\"\"\")\ns=open('src/pr-summary.ts').read()\ns=s.replace(\"\"\"      const t = { passed: '✅', failed: '❌', unknown: '❔', none: '—' }[r.testsRun.status];\n      const cost = r.aiAssisted && r.estimatedCostUsd.amount !== null ? usd(r.estimatedCostUsd.amount) : '—';\n      return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ''} | ${lines} | ${t} | ${cost} |`;\"\"\",\n\"\"\"      const tests = { passed: '✅', failed: '❌', unknown: '❔', none: '—' }[r.testsRun.status];\n      const cost = r.aiAssisted && r.estimatedCostUsd.amount !== null ? usd(r.estimatedCostUsd.amount) : '—';\n      return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ''} | ${lines} | ${tests} | ${cost} |`;\"\"\")\nopen('src/pr-summary.ts','w').write(s)\nt='test/action.test.ts'; s=open(t).read()\na=\"\"\"    expect(s.body).toContain('fix \\\\\\\\| table \\\\\\\\*bold\\\\\\\\*');\"\"\"\nassert a in s\ns=s.replace(a,a+\"\"\"\n    const partial = receipt(sha, { ai: 7, total: 10, unknown: 3 });\n    expect(summarizePr([{ sha, subject: 'p' }], new Map([[sha, partial]])).body).toContain('| 7+? / 10 |');\"\"\")\nopen(t,'w').write(s)\nEOF\nnpx tsc --noEmit && npx biome lint 2>&1 | grep -cE \"lint/.*error\"; npx tsup >/dev/null 2>&1; npx vitest run 2>&1 | grep -E \"×|Tests \"; git status --short"
   },
   "estimatedCostUsd": {
-    "amount": 1.998879,
+    "amount": 2.129142,
     "confidence": "medium",
     "unpricedModels": [],
     "pricingVersion": "2026-11-02"
   },
   "humanEditedAfterAi": false,
   "isMerge": false,
-  "createdAt": "2026-11-02T11:03:21.581Z",
+  "createdAt": "2026-11-02T11:07:38.781Z",
   "generator": {
     "name": "rcpt",
     "version": "0.1.0"
