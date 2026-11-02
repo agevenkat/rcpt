@@ -14,10 +14,11 @@
       "confidence": "high",
       "evidence": [
         "line-match",
-        "file-match"
+        "file-match",
+        "ran-commit"
       ],
       "aiLinesAdded": 51,
-      "estimatedCostUsd": 1.027042
+      "estimatedCostUsd": 2.800783
     },
     {
       "id": "9211d2d3-b733-4032-88b8-77cca379414e",
@@ -34,7 +35,7 @@
       "estimatedCostUsd": null
     }
   ],
-  "promptSummary": "go",
+  "promptSummary": "make it (+1 more)",
   "filesAttributed": [
     {
       "path": "src/attribute.ts",
@@ -62,14 +63,14 @@
     "command": null
   },
   "estimatedCostUsd": {
-    "amount": 1.027042,
+    "amount": 2.800783,
     "confidence": "medium",
     "unpricedModels": [],
     "pricingVersion": "2026-11-02"
   },
   "humanEditedAfterAi": false,
   "isMerge": false,
-  "createdAt": "2026-11-02T11:07:39.051Z",
+  "createdAt": "2026-11-02T11:19:21.962Z",
   "generator": {
     "name": "rcpt",
     "version": "0.1.0"
