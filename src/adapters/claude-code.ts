@@ -87,10 +87,8 @@ async function parse(file: string): Promise<ParseResult> {
       const blocks = Array.isArray(content) ? content.filter(isObj) : [];
       const results = blocks.filter((x) => x.type === 'tool_result');
       if (!results.length) {
-        if (!isSubagent && isHumanPrompt(ev)) {
-          const text = typeof content === 'string' ? content : blocks.map((x) => str(x.text) ?? '').join('\n');
-          b.prompt(ts, text);
-        }
+        const text = typeof content === 'string' ? content : blocks.map((x) => str(x.text) ?? '').join('\n');
+        if (!isSubagent && isHumanPrompt(ev) && !isTerminalEcho(text)) b.prompt(ts, text);
         continue;
       }
       const tur = isObj(ev.toolUseResult) ? ev.toolUseResult : {};
@@ -116,6 +114,11 @@ async function parse(file: string): Promise<ParseResult> {
     }, ts);
   }
   return b.result();
+}
+
+/** `!` shell commands and slash-command output are logged as user messages but aren't prompts to the agent. */
+function isTerminalEcho(text: string): boolean {
+  return /^\s*<(bash-input|bash-stdout|bash-stderr|local-command-stdout|local-command-stderr|local-command-caveat)>/.test(text);
 }
 
 function isHumanPrompt(ev: Record<string, unknown>): boolean {
