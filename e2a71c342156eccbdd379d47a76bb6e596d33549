@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "e2a71c342156eccbdd379d47a76bb6e596d33549",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match",
+        "ran-commit"
+      ],
+      "aiLinesAdded": 9,
+      "estimatedCostUsd": 2.107816
+    }
+  ],
+  "promptSummary": "i run the code",
+  "filesAttributed": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "totalLinesAdded": 30,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": ".gitignore",
+      "totalLinesAdded": 5,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "totalLinesAdded": 70,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "LICENSE",
+      "totalLinesAdded": 17,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "README.md",
+      "totalLinesAdded": 99,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "action/action.yml",
+      "totalLinesAdded": 26,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "action/package.json",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "action/src/main.ts",
+      "totalLinesAdded": 78,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "biome.json",
+      "totalLinesAdded": 14,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "docs/log-formats.md",
+      "totalLinesAdded": 150,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "package.json",
+      "totalLinesAdded": 50,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/adapters/builder.ts",
+      "totalLinesAdded": 112,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/adapters/claude-code.ts",
+      "totalLinesAdded": 172,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/adapters/codex.ts",
+      "totalLinesAdded": 178,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/adapters/gemini-cli.ts",
+      "totalLinesAdded": 112,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/adapters/index.ts",
+      "totalLinesAdded": 12,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/adapters/types.ts",
+      "totalLinesAdded": 37,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/attribute.ts",
+      "totalLinesAdded": 332,
+      "aiLinesAdded": 0,
+      "confidence": "medium"
+    },
+    {
+      "path": "src/cli.ts",
+      "totalLinesAdded": 184,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/config.ts",
+      "totalLinesAdded": 87,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/cost.ts",
+      "totalLinesAdded": 70,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/doctor.ts",
+      "totalLinesAdded": 89,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/format.ts",
+      "totalLinesAdded": 42,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/git.ts",
+      "totalLinesAdded": 110,
+      "aiLinesAdded": 0,
+      "confidence": "medium"
+    },
+    {
+      "path": "src/hook.ts",
+      "totalLinesAdded": 96,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/install.ts",
+      "totalLinesAdded": 215,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/log.ts",
+      "totalLinesAdded": 14,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/notes.ts",
+      "totalLinesAdded": 103,
+      "aiLinesAdded": 6,
+      "confidence": "high",
+      "aiLines": "19,23,27,30,100,103"
+    },
+    {
+      "path": "src/paths.ts",
+      "totalLinesAdded": 45,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/pr-summary.ts",
+      "totalLinesAdded": 81,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/pricing.json",
+      "totalLinesAdded": 39,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/report/data.ts",
+      "totalLinesAdded": 207,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/report/html.ts",
+      "totalLinesAdded": 177,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/types.ts",
+      "totalLinesAdded": 134,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/util/duration.ts",
+      "totalLinesAdded": 7,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/util/lines.ts",
+      "totalLinesAdded": 87,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/util/read.ts",
+      "totalLinesAdded": 87,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/util/redact.ts",
+      "totalLinesAdded": 29,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/util/test-commands.ts",
+      "totalLinesAdded": 38,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "src/version.ts",
+      "totalLinesAdded": 2,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/action.test.ts",
+      "totalLinesAdded": 138,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/adapters.test.ts",
+      "totalLinesAdded": 161,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/attribute.test.ts",
+      "totalLinesAdded": 349,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/fixtures/home/.claude/projects/-tmp-demo-repo/11111111-1111-4111-8111-111111111111.jsonl",
+      "totalLinesAdded": 15,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/fixtures/home/.claude/projects/-tmp-demo-repo/11111111-1111-4111-8111-111111111111/subagents/agent-a0000000000000001.jsonl",
+      "totalLinesAdded": 3,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/fixtures/home/.codex/sessions/2026/10/01/rollout-2026-10-01T11-00-00-22222222-2222-4222-8222-222222222222.jsonl",
+      "totalLinesAdded": 11,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/fixtures/home/.codex/sessions/2026/10/01/rollout-2026-10-01T12-00-00-33333333-3333-4333-8333-333333333333.jsonl",
+      "totalLinesAdded": 11,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/fixtures/home/.gemini/tmp/0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f/chats/session-2026-10-01T13-00-abcd1234.json",
+      "totalLinesAdded": 28,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/git-hooks.test.ts",
+      "totalLinesAdded": 325,
+      "aiLinesAdded": 0,
+      "confidence": "medium"
+    },
+    {
+      "path": "test/global-setup.ts",
+      "totalLinesAdded": 7,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/helpers.ts",
+      "totalLinesAdded": 117,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "test/report.test.ts",
+      "totalLinesAdded": 80,
+      "aiLinesAdded": 3,
+      "confidence": "high",
+      "aiLines": "22,35,55"
+    },
+    {
+      "path": "test/util.test.ts",
+      "totalLinesAdded": 93,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "tsconfig.json",
+      "totalLinesAdded": 15,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "tsup.config.ts",
+      "totalLinesAdded": 19,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": "vitest.config.ts",
+      "totalLinesAdded": 8,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 9,
+    "totalLinesAdded": 4818,
+    "unknownLines": 3868,
+    "ignoredLines": 3361
+  },
+  "testsRun": {
+    "status": "passed",
+    "command": "python3 - <<'EOF'\np='test/report.test.ts'; s=open(p).read()\ns+=\"\"\"\ndescribe('notes without a configured git identity', () => {\n  it('falls back to an rcpt identity instead of failing (fresh machines, CI)', async () => {\n    const repo = tmpDir('noident');\n    initRepo(repo);\n    write(path.join(repo, 'a.txt'), 'a\\\\n');\n    const sha = commitAt(repo, new Date('2026-10-01T00:00:00Z'), 'a');\n    gitIn(repo, ['config', 'user.useConfigOnly', 'true']);\n    const saved = { g: process.env.GIT_CONFIG_GLOBAL, s: process.env.GIT_CONFIG_NOSYSTEM };\n    process.env.GIT_CONFIG_GLOBAL = path.join(tmpDir('emptycfg'), 'none');\n    process.env.GIT_CONFIG_NOSYSTEM = '1';\n    for (const k of ['GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL']) delete process.env[k];\n    try {\n      const r = await attributeCommit({ repoDir: repo, rev: sha, adapters: [], config: DEFAULT_CONFIG, pricing: loadPricing() });\n      await writeReceipt(repo, sha, r);\n      expect(readReceipt(repo, sha)?.commitSha).toBe(sha);\n      expect(gitIn(repo, ['log', '-1', '--format=%an <%ae>', 'refs/notes/rcpt']).trim()).toBe('rcpt <rcpt@localhost>');\n    } finally {\n      process.env.GIT_CONFIG_GLOBAL = saved.g;\n      if (saved.s === undefined) delete process.env.GIT_CONFIG_NOSYSTEM;\n      else process.env.GIT_CONFIG_NOSYSTEM = saved.s;\n    }\n  });\n});\n\"\"\"\ns=s.replace(\"import { writeReceipt } from '../src/notes.js';\",\"import { readReceipt, writeReceipt } from '../src/notes.js';\")\ns=s.replace(\"import { at, claudeSession, commitAt, initRepo, tmpDir, write } from './helpers.js';\",\"import { at, claudeSession, commitAt, gitIn, initRepo, tmpDir, write } from './helpers.js';\")\nopen(p,'w').write(s)\nEOF\nnpx tsc --noEmit && npx biome lint 2>&1 | grep -E \"error|Found [0-9]+ error\"; npx tsup >/dev/null 2>&1; git status --short; npx vitest run 2>&1 | grep -E \"×|Tests \""
+  },
+  "estimatedCostUsd": {
+    "amount": 2.107816,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": true,
+  "isMerge": false,
+  "createdAt": "2026-11-02T10:56:42.881Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
