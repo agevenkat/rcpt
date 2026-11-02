@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "df6e5c8a5941d2966fec668523d683ecbac8f828",
+  "aiAssisted": true,
+  "confidence": "medium",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "medium",
+      "evidence": [
+        "ran-commit"
+      ],
+      "aiLinesAdded": 0,
+      "estimatedCostUsd": 18.009932
+    }
+  ],
+  "promptSummary": "<pasted_content id=\"909a\"> # Build AgentLedger: receipts for AI-written code You are building AgentLedger, an open-source, local-first CLI… (+5 more)",
+  "filesAttributed": [],
+  "totals": {
+    "aiLinesAdded": 0,
+    "totalLinesAdded": 0,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "passed",
+    "command": "python3 - <<'EOF'\np='src/format.ts'; s=open(p).read()\na=\"\"\"  const cost = r.estimatedCostUsd;\n  out.push(\"\"\"\nb=\"\"\"  const cost = r.estimatedCostUsd;\n  if (!r.aiAssisted) out.push(`Est. cost     ${c.dim('n/a (no AI session linked)')}`);\n  else out.push(\"\"\"\nassert a in s; s=s.replace(a,b,1); open(p,'w').write(s)\nEOF\nnpx tsc --noEmit && npx biome lint 2>&1 | grep -E \"error\" ; npx tsup >/dev/null 2>&1 && cd /private/tmp/claude-501/-Users-venkateshage-Downloads-vage-git-agentledger/79d77c0d-4fbe-4a16-897e-8a1a4052a17d/scratchpad/fresh && node /Users/venkateshage/Downloads/vage-git/agentledger/dist/cli.js receipt HEAD | grep \"Est. cost\"; cd /Users/venkateshage/Downloads/vage-git/agentledger && npx vitest run 2>&1 | grep -E \"Tests \"; git status --short | head -30"
+  },
+  "estimatedCostUsd": {
+    "amount": 18.009932,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": null,
+  "isMerge": false,
+  "createdAt": "2026-11-02T10:56:39.609Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
