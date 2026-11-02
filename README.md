@@ -110,7 +110,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: OWNER/rcpt/action@v1
+      - uses: agevenkat/rcpt/action@v1
 ```
 
 The action posts one comment per PR and updates it on every push:
