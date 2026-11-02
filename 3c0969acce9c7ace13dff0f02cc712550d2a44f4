@@ -14,13 +14,14 @@
       "confidence": "high",
       "evidence": [
         "line-match",
-        "file-match"
+        "file-match",
+        "ran-commit"
       ],
       "aiLinesAdded": 8,
-      "estimatedCostUsd": 0.587947
+      "estimatedCostUsd": 1.072965
     }
   ],
-  "promptSummary": "(Bash completed with no output)",
+  "promptSummary": "go",
   "filesAttributed": [
     {
       "path": ".gitignore",
@@ -43,18 +44,18 @@
     "ignoredLines": 0
   },
   "testsRun": {
-    "status": "none",
-    "command": null
+    "status": "passed",
+    "command": "python3 - <<'EOF'\ndef sub(p,a,b):\n    s=open(p).read(); assert a in s,(p,a); open(p,'w').write(s.replace(a,b,1))\nsub('src/adapters/claude-code.ts',\"\"\"      if (!results.length) {\n        if (!isSubagent && isHumanPrompt(ev)) {\n          const text = typeof content === 'string' ? content : blocks.map((x) => str(x.text) ?? '').join('\\\\n');\n          b.prompt(ts, text);\n        }\n        continue;\n      }\"\"\",\"\"\"      if (!results.length) {\n        const text = typeof content === 'string' ? content : blocks.map((x) => str(x.text) ?? '').join('\\\\n');\n        if (!isSubagent && isHumanPrompt(ev) && !isTerminalEcho(text)) b.prompt(ts, text);\n        continue;\n      }\"\"\")\nsub('src/adapters/claude-code.ts',\"\"\"function isHumanPrompt(ev: Record<string, unknown>): boolean {\"\"\",\"\"\"/** `!` shell commands and slash-command output are logged as user messages but aren't prompts to the agent. */\nfunction isTerminalEcho(text: string): boolean {\n  return /^\\\\s*<(bash-input|bash-stdout|bash-stderr|local-command-stdout|local-command-stderr|local-command-caveat)>/.test(text);\n}\n\nfunction isHumanPrompt(ev: Record<string, unknown>): boolean {\"\"\")\nf='test/fixtures/home/.claude/projects/-tmp-demo-repo/11111111-1111-4111-8111-111111111111.jsonl'\ns=open(f).read()\na='{\"type\":\"assistant\",\"uuid\":\"a7\"'\nassert a in s\ns=s.replace(a,'{\"type\":\"user\",\"uuid\":\"bang1\",\"isSidechain\":false,\"message\":{\"role\":\"user\",\"content\":\"<bash-input> ls -la</bash-input>\"},\"cwd\":\"/tmp/demo-repo\",\"sessionId\":\"11111111-1111-4111-8111-111111111111\",\"version\":\"2.1.316\",\"timestamp\":\"2026-10-01T10:00:08.500Z\"}\\n{\"type\":\"user\",\"uuid\":\"bang2\",\"isSidechain\":false,\"message\":{\"role\":\"user\",\"content\":\"<bash-stdout>(Bash completed with no output)</bash-stdout><bash-stderr></bash-stderr>\"},\"cwd\":\"/tmp/demo-repo\",\"sessionId\":\"11111111-1111-4111-8111-111111111111\",\"version\":\"2.1.316\",\"timestamp\":\"2026-10-01T10:00:08.600Z\"}\\n'+a,1)\nopen(f,'w').write(s)\nsub('test/adapters.test.ts',\"\"\"    // Only the typed human prompt, redacted. Meta and subagent instructions are not prompts.\"\"\",\"\"\"    // Only the typed human prompt, redacted. Meta, subagent instructions and `!` shell echoes are not prompts.\"\"\")\nEOF\ngrep -n \"line: 12\" test/adapters.test.ts; npx tsc --noEmit && npx vitest run 2>&1 | grep -E \"×|Tests \""
   },
   "estimatedCostUsd": {
-    "amount": 0.587947,
+    "amount": 1.072965,
     "confidence": "medium",
     "unpricedModels": [],
     "pricingVersion": "2026-11-02"
   },
   "humanEditedAfterAi": false,
   "isMerge": false,
-  "createdAt": "2026-11-02T11:18:30.948Z",
+  "createdAt": "2026-11-02T11:19:22.182Z",
   "generator": {
     "name": "rcpt",
     "version": "0.1.0"
