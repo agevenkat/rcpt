@@ -41,7 +41,7 @@ describe('claude-code adapter', () => {
       'claude-haiku-5-5': { input: 30, output: 10, cacheRead: 0, cacheWrite: 500, cacheWrite1h: 0 },
     });
 
-    // Only the typed human prompt, redacted. Meta and subagent instructions are not prompts.
+    // Only the typed human prompt, redacted. Meta, subagent instructions and `!` shell echoes are not prompts.
     expect(s!.prompts).toHaveLength(1);
     expect(s!.prompts[0]!.text).toContain('[REDACTED:anthropic-key]');
     expect(s!.prompts[0]!.text).toContain('[REDACTED:email]');
