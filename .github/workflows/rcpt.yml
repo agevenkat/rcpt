@@ -1,0 +1,15 @@
+# Dogfood: run this repository's own action (./action) on every pull request.
+name: rcpt
+
+on: pull_request
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  receipts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./action

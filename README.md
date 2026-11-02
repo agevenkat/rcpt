@@ -2,8 +2,7 @@
 
 **Receipts for AI-written code.** For every commit, rcpt records which coding agent and model did the work, which lines it wrote, whether tests ran, and roughly what it cost. Receipts live in your git repository. Nothing leaves your machine.
 
-<!-- demo GIF: `rcpt init` → commit with Claude Code → `rcpt receipt HEAD` -->
-![rcpt demo](docs/demo.gif)
+<!-- TODO demo GIF (docs/demo.gif): `rcpt init` → commit with Claude Code → `rcpt receipt HEAD` -->
 
 ```text
 🧾 rcpt receipt  3f2a9c1e8b  Add rate limiting to the API client
