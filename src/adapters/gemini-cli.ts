@@ -1,13 +1,17 @@
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { AgentAdapter, AdapterOptions, ParseResult } from './types.js';
 import { SessionBuilder, failed } from './builder.js';
-import { exists, isObj, num, readLogText, str, walkFiles, withMtimes } from '../util/read.js';
+import { exists, isObj, num, parseJsonl, readLogText, str, walkFiles, withMtimes } from '../util/read.js';
 import { diffStrings, parseUnifiedDiff, type LineDelta } from '../util/lines.js';
 
-// UNVERIFIED: built from Gemini CLI's documented chat-recording format, not observed logs.
-// See docs/log-formats.md#gemini-cli. Every field access is defensive.
+// PARTLY VERIFIED (Gemini CLI 0.66.0): location, JSONL envelope and user messages were observed; the shape of
+// model replies and tool calls still follows the documented format. See docs/log-formats.md#gemini-cli.
+// Two layouts are supported:
+//   0.66+: tmp/<project-name>/chats/session-*.jsonl, with tmp/<project-name>/.project_root holding the path
+//   older (documented): tmp/<sha256(project root)>/chats/session-*.json, one JSON document
 
-const isChat = (n: string) => n.startsWith('session-') && n.endsWith('.json');
+const isChat = (n: string) => n.startsWith('session-') && (n.endsWith('.json') || n.endsWith('.jsonl'));
 
 export function geminiCliAdapter({ home }: AdapterOptions): AgentAdapter {
   const tmpDir = path.join(home, '.gemini', 'tmp');
@@ -20,7 +24,7 @@ export function geminiCliAdapter({ home }: AdapterOptions): AgentAdapter {
       return { detected: await exists(tmpDir), dataDir: tmpDir };
     },
     async listSessions(since) {
-      // ~/.gemini/tmp/<projectHash>/chats/session-*.json
+      // ~/.gemini/tmp/<project>/chats/session-*.json(l)
       const files = await walkFiles(tmpDir, isChat, 2);
       return withMtimes(files.filter((f) => path.basename(path.dirname(f)) === 'chats'), since);
     },
@@ -34,27 +38,69 @@ export function geminiCliAdapter({ home }: AdapterOptions): AgentAdapter {
   };
 }
 
-async function parse(file: string): Promise<ParseResult> {
-  const b = new SessionBuilder('gemini-cli', path.basename(file, '.json'), file);
-  let doc: unknown;
-  try {
-    doc = JSON.parse(await readLogText(file));
-  } catch {
-    // A file being written mid-session can be truncated.
-    b.warnings.push({ path: file, message: 'unparseable session JSON; skipped' });
-    return b.result();
+/** Read a session in either layout into { header, messages }. Later lines for the same message id replace earlier ones. */
+async function load(file: string, b: SessionBuilder): Promise<{ header: Record<string, unknown>; messages: unknown[] } | null> {
+  const text = await readLogText(file);
+  if (!file.endsWith('.jsonl')) {
+    let doc: unknown;
+    try {
+      doc = JSON.parse(text);
+    } catch {
+      // A file being written mid-session can be truncated.
+      b.warnings.push({ path: file, message: 'unparseable session JSON; skipped' });
+      return null;
+    }
+    if (!isObj(doc) || !Array.isArray(doc.messages)) {
+      b.warnings.push({ path: file, message: 'unexpected session shape (no messages array)' });
+      return null;
+    }
+    return { header: doc, messages: doc.messages };
   }
-  if (!isObj(doc) || !Array.isArray(doc.messages)) {
-    b.warnings.push({ path: file, message: 'unexpected session shape (no messages array)' });
-    return b.result();
+  const header: Record<string, unknown> = {};
+  const byId = new Map<string, unknown>();
+  let anon = 0;
+  for (const line of parseJsonl(text, file, b.warnings)) {
+    if (!isObj(line)) continue;
+    if (isObj(line.$set)) {
+      // Header updates, e.g. { "$set": { "lastUpdated": … } }
+      for (const [k, v] of Object.entries(line.$set)) {
+        if (k === 'lastUpdated') b.seen(v);
+        else b.skip(`$set:${k}`);
+      }
+    } else if (typeof line.type === 'string') {
+      byId.set(str(line.id) ?? `anon-${anon++}`, line);
+    } else if (str(line.sessionId)) {
+      Object.assign(header, line);
+    } else {
+      b.skip('unknown-line');
+    }
   }
-  b.id = str(doc.sessionId) ?? b.id;
-  b.projectHash = str(doc.projectHash) ?? path.basename(path.dirname(path.dirname(file)));
-  b.seen(doc.startTime);
-  b.seen(doc.lastUpdated);
-  // The documented chat format has no CLI version field; agentVersion stays null.
+  return { header, messages: [...byId.values()] };
+}
 
-  for (const [i, m] of doc.messages.entries()) {
+/** 0.66+ keeps the project's absolute path next to the chats folder. */
+async function projectRoot(file: string): Promise<string | null> {
+  try {
+    const p = (await fs.readFile(path.join(path.dirname(path.dirname(file)), '.project_root'), 'utf8')).trim();
+    return p && path.isAbsolute(p) ? p : null;
+  } catch {
+    return null;
+  }
+}
+
+async function parse(file: string): Promise<ParseResult> {
+  const b = new SessionBuilder('gemini-cli', path.basename(file).replace(/\.jsonl?$/, ''), file);
+  const loaded = await load(file, b);
+  if (!loaded) return b.result();
+  const { header, messages } = loaded;
+  b.id = str(header.sessionId) ?? b.id;
+  b.cwd = await projectRoot(file);
+  b.projectHash = str(header.projectHash) ?? path.basename(path.dirname(path.dirname(file)));
+  b.seen(header.startTime);
+  b.seen(header.lastUpdated);
+  // No CLI version field in either layout; agentVersion stays null.
+
+  for (const [i, m] of messages.entries()) {
     if (!isObj(m)) {
       b.warnings.push({ path: file, line: i, message: 'skipped non-object message' });
       continue;

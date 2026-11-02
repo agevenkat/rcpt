@@ -139,8 +139,28 @@ describe('gemini-cli adapter (unverified)', () => {
     expect(adapter('gemini-cli').verified).toBe(false);
   });
 
+  async function byName(part: string) {
+    const a = adapter('gemini-cli');
+    const refs = await a.listSessions();
+    expect(refs).toHaveLength(2);
+    return a.parseSession(refs.find((r) => r.path.includes(part))!.path);
+  }
+
+  it('parses the 0.66 JSONL layout (observed envelope) and reads .project_root', async () => {
+    const { session: s, warnings, skippedEvents } = await byName('5555aaaa');
+    expect(s!.id).toBe('55555555-5555-4555-8555-555555555555');
+    expect(s!.cwd).toBe('/tmp/demo-repo');
+    expect(s!.prompts.map((p) => p.text)).toEqual(['Add a divide function. token: [REDACTED:github-token]']);
+    // A message rewritten under the same id counts once (the last version).
+    expect(s!.tokenUsage).toEqual({ 'gemini-3.8-flash': { input: 1000, output: 100, cacheRead: 200, cacheWrite: 0, cacheWrite1h: 0 } });
+    expect(s!.fileEdits.map((e) => [path.basename(e.path), e.kind, e.linesAdded])).toEqual([['div.js', 'create', 1]]);
+    expect(s!.endedAt).toBe('2026-11-02T10:16:06.000Z');
+    expect(warnings).toEqual([expect.objectContaining({ message: 'skipped unparseable line' })]);
+    expect(skippedEvents).toMatchObject({ 'message:info': 1, '$set:newField': 1 });
+  });
+
   it('parses a documented-format chat file', async () => {
-    const { session: s, warnings, skippedEvents } = await parseOnly('gemini-cli');
+    const { session: s, warnings, skippedEvents } = await byName('abcd1234');
     expect(s!.id).toBe('44444444-4444-4444-8444-444444444444');
     expect(s!.cwd).toBeNull();
     expect(s!.projectHash).toMatch(/^0f0f/);

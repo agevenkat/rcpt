@@ -97,7 +97,7 @@ describe('doctor', () => {
     const by = Object.fromEntries(reports.map((r) => [r.agent, r]));
     expect(by['claude-code']).toMatchObject({ detected: true, totalSessions: 1, parsed: 1, fileEdits: 4, testCommands: 2 });
     expect(by['codex']).toMatchObject({ detected: true, totalSessions: 2, parsed: 2, versions: ['0.107.0', '0.163.0'] });
-    expect(by['gemini-cli']).toMatchObject({ detected: true, verified: false, parsed: 1 });
+    expect(by['gemini-cli']).toMatchObject({ detected: true, verified: false, parsed: 2 });
     expect(by['claude-code']!.warnings).toEqual([{ message: 'skipped unparseable line', count: 1 }]);
 
     const text = formatDoctor(reports, '30d');

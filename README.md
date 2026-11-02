@@ -50,7 +50,7 @@ Requires Node 22.15+ and git 2.30+.
 |---|---|---|
 | Claude Code | ✅ verified (2.1.284 – 2.1.316) | `~/.claude/projects/` (or `$CLAUDE_CONFIG_DIR`) |
 | Codex CLI | ✅ verified (0.95 – 0.163) | `~/.codex/sessions/`, `archived_sessions/` (or `$CODEX_HOME`), including `.jsonl.zst` |
-| Gemini CLI | ⚠️ unverified: built from the documented format, not yet checked against real logs | `~/.gemini/tmp/<project-hash>/chats/` |
+| Gemini CLI | ⚠️ partly verified (0.66.0): session layout and prompts checked; model replies, tool calls and usage still follow the documented format | `~/.gemini/tmp/<project>/chats/` (`.jsonl`; older `.json` too) |
 | Cursor, Copilot | not yet. Adding one is a single file, see [CONTRIBUTING.md](CONTRIBUTING.md) | |
 
 Log formats are undocumented and change between releases. What each version actually writes is recorded in [docs/log-formats.md](docs/log-formats.md). Parsers skip unknown events instead of failing. `rcpt doctor -v` shows anything they skipped.

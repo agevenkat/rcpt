@@ -8,7 +8,7 @@ prompt text, code or real paths. Update it whenever an adapter changes.
 |---|---|---|---|---|
 | Claude Code | **verified** | 2.1.284 – 2.1.316 | 2026-11-02, macOS | 827 files / 174,644 lines (30 days) |
 | Codex CLI | **verified** | 0.95.0-alpha.7 – 0.163.0-alpha.10.2 | 2026-11-02, macOS | 28 rollouts / 16k+ lines |
-| Gemini CLI | **unverified** | none (not installed) | — | fixture only, from documented format |
+| Gemini CLI | **partly verified** | 0.66.0 | 2026-11-02, macOS | 1 session / 17 lines (envelope and user messages only; no model replies yet) |
 
 General rules for every adapter:
 
@@ -145,42 +145,60 @@ used, because it also carries injected context (environment, AGENTS.md).
 
 ---
 
-## Gemini CLI — UNVERIFIED
+## Gemini CLI — PARTLY VERIFIED
 
-Gemini CLI isn't installed on the development machine. `~/.gemini/` exists but contains only
-Antigravity IDE data (`antigravity*/`, `config/`). The adapter follows Gemini CLI's documented
-chat-recording format and is marked `verified: false` until it's checked against real logs.
+Observed on **0.66.0** (2026-11-02): the location, file layout, JSONL envelope, user messages and `info`
+messages. Not yet observed: model (`gemini`) messages, token usage, tool calls. The only real session got no
+reply (two Google sign-ins, then `security.auth.selectedType = gemini-api-key`). Those parts still follow the
+documented format below.
 
-**Expected location:** `~/.gemini/tmp/<projectHash>/chats/session-<timestamp>-<shortId>.json`,
-where `projectHash` is the SHA-256 of the project root path.
+**Location (observed, 0.66.0):**
 
-**Expected format:** a single JSON document (not JSONL), rewritten as the session progresses:
-
-```jsonc
-{
-  "sessionId": "…", "projectHash": "…", "startTime": "ISO", "lastUpdated": "ISO",
-  "messages": [
-    { "id", "timestamp", "type": "user" | "gemini" | "info" | "error" | "warning",
-      "content": "string or Part[]",
-      "model": "…",                                   // gemini messages
-      "tokens": { "input", "output", "cached", "thoughts", "tool", "total" },
-      "toolCalls": [ { "id", "name", "args", "result", "status", "timestamp", "resultDisplay" } ] }
-  ]
-}
+```
+~/.gemini/tmp/<project-name>/chats/session-<YYYY-MM-DDTHH-MM>-<8 hex>.jsonl
+~/.gemini/tmp/<project-name>/.project_root      absolute project path (plain text, no newline)
+~/.gemini/tmp/<project-name>/logs.json          prompt log: [{sessionId, messageId, type, message, timestamp}] (not read)
+~/.gemini/projects.json                         {projects: {<path>: <project-name>}} (not read)
 ```
 
-Adapter assumptions, all to be checked once real logs are available:
-- No `cwd` field. rcpt records `projectHash`, and attribution (Phase 2) matches it by hashing
-  candidate repo roots.
-- No CLI version field, so `agentVersion` is `null`.
-- `tokens.input` includes `tokens.cached` (as in Gemini API usage metadata); `thoughts` are billed
-  as output; `tool` tokens are counted as input.
-- Edits: `write_file` (`file_path`, `content`) and `replace` (`file_path`, `old_string`,
-  `new_string`). `resultDisplay.fileDiff` (unified diff) is preferred when present.
-  Non-`success` status means the edit isn't counted.
-- Commands: `run_shell_command` (`command`, `directory`); exit code from `"Exit Code: N"` in the
-  result, otherwise 0 on `success` and `null` on anything else.
-- A truncated or invalid file produces a warning and no session.
+rcpt reads `.project_root` and uses it as the session's working directory. That's exact, so there's no hash
+guessing. Other files in `~/.gemini` (`google_accounts.json`, `settings.json`, `state.json`, `oauth` files)
+are **not read**.
 
-To verify: install Gemini CLI, run one session in a git repo, run `rcpt doctor -v`, and compare a
-structural scan of the file against this section.
+**Format (observed, 0.66.0):** JSONL. Line kinds:
+
+| Line | Shape | rcpt |
+|---|---|---|
+| header (first line) | `{sessionId, projectHash, startTime, lastUpdated, kind: "main"}` | id, project hash, start time |
+| header update | `{"$set": {"lastUpdated": ISO}}` (after most messages) | end time. Other `$set` keys are counted as skipped |
+| user message | `{id, timestamp, type: "user", content: [{text}]}` | prompt (redacted) |
+| info message | `{id, timestamp, type: "info", content: string}` (auth notices etc.) | skipped |
+| model message | `{id, timestamp, type: "gemini", …}` — **not yet observed**, assumed as documented below | model, usage, tool calls |
+
+If the same message `id` appears more than once, the last line wins. That's a defensive assumption for
+streamed updates, not yet observed.
+
+**Older layout (documented, not observed):** `~/.gemini/tmp/<sha256(project root)>/chats/session-*.json`,
+a single JSON document `{sessionId, projectHash, startTime, lastUpdated, messages: [...]}`. Both layouts are
+supported. In the old one, attribution matches sessions to repos by hashing candidate repo roots.
+
+**Model messages and tool calls (documented, unverified):**
+
+```jsonc
+{ "id", "timestamp", "type": "gemini", "model": "…", "content": "…",
+  "tokens": { "input", "output", "cached", "thoughts", "tool", "total" },
+  "toolCalls": [ { "id", "name", "args", "result", "status", "timestamp", "resultDisplay" } ] }
+```
+
+Adapter assumptions, still to be checked against a session where Gemini replies:
+- `tokens.input` includes `tokens.cached` (as in Gemini API usage metadata); `thoughts` are billed as output;
+  `tool` tokens are counted as input.
+- Edits: `write_file` (`file_path`, `content`) and `replace` (`file_path`, `old_string`, `new_string`).
+  `resultDisplay.fileDiff` (unified diff) is preferred when present. Non-`success` status means the edit
+  isn't counted.
+- Commands: `run_shell_command` (`command`, `directory`); exit code from `"Exit Code: N"` in the result,
+  otherwise 0 on `success` and `null` on anything else.
+- No CLI version field in either layout, so `agentVersion` is `null`.
+
+To finish verification: run one Gemini session in a git repo where it replies, edits a file and runs a
+command, then run `rcpt doctor -v` and a structural scan of the newest `chats/*.jsonl`.
