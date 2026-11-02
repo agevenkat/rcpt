@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "1efe84c93d623de69f4d1bc20876877855c619e8",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match",
+        "ran-commit"
+      ],
+      "aiLinesAdded": 54,
+      "estimatedCostUsd": 1.998879
+    },
+    {
+      "id": "9211d2d3-b733-4032-88b8-77cca379414e",
+      "agent": "gemini-cli",
+      "agentVersion": null,
+      "models": [
+        "gemma-4-31b-it"
+      ],
+      "confidence": "medium",
+      "evidence": [
+        "ran-commit"
+      ],
+      "aiLinesAdded": 0,
+      "estimatedCostUsd": 0
+    }
+  ],
+  "promptSummary": "mkdir -p ~/gemini-rcpt-test && cd ~/gemini-rcpt-test && git init -q && echo \"# test\" > README.md && git add -A && git commit -qm init gemin… (+1 more)",
+  "filesAttributed": [
+    {
+      "path": "src/attribute.ts",
+      "totalLinesAdded": 17,
+      "aiLinesAdded": 17,
+      "confidence": "high",
+      "aiLines": "68-71,184-190,198-200,252,349-350"
+    },
+    {
+      "path": "src/format.ts",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "25"
+    },
+    {
+      "path": "src/report/data.ts",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "192"
+    },
+    {
+      "path": "src/types.ts",
+      "totalLinesAdded": 3,
+      "aiLinesAdded": 3,
+      "confidence": "high",
+      "aiLines": "102-103,131"
+    },
+    {
+      "path": "test/attribute.test.ts",
+      "totalLinesAdded": 32,
+      "aiLinesAdded": 32,
+      "confidence": "high",
+      "aiLines": "12,121,132,204,208,211-217,225-242,347-348"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 54,
+    "totalLinesAdded": 54,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "passed",
+    "command": "python3 - <<'EOF'\ndef sub(p,a,b):\n    s=open(p).read(); assert a in s,(p,a); open(p,'w').write(s.replace(a,b,1))\nsub('src/pr-summary.ts',\"\"\"      const lines = `${r.totals.unknownLines ? '?' : r.totals.aiLinesAdded} / ${r.totals.totalLinesAdded}`;\"\"\",\n\"\"\"      const t = r.totals;\n      const ai = !t.unknownLines ? String(t.aiLinesAdded) : t.aiLinesAdded ? `${t.aiLinesAdded}+?` : '?';\n      const lines = `${ai} / ${t.totalLinesAdded}`;\"\"\")\ns=open('src/pr-summary.ts').read()\ns=s.replace(\"\"\"      const t = { passed: '✅', failed: '❌', unknown: '❔', none: '—' }[r.testsRun.status];\n      const cost = r.aiAssisted && r.estimatedCostUsd.amount !== null ? usd(r.estimatedCostUsd.amount) : '—';\n      return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ''} | ${lines} | ${t} | ${cost} |`;\"\"\",\n\"\"\"      const tests = { passed: '✅', failed: '❌', unknown: '❔', none: '—' }[r.testsRun.status];\n      const cost = r.aiAssisted && r.estimatedCostUsd.amount !== null ? usd(r.estimatedCostUsd.amount) : '—';\n      return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ''} | ${lines} | ${tests} | ${cost} |`;\"\"\")\nopen('src/pr-summary.ts','w').write(s)\nt='test/action.test.ts'; s=open(t).read()\na=\"\"\"    expect(s.body).toContain('fix \\\\\\\\| table \\\\\\\\*bold\\\\\\\\*');\"\"\"\nassert a in s\ns=s.replace(a,a+\"\"\"\n    const partial = receipt(sha, { ai: 7, total: 10, unknown: 3 });\n    expect(summarizePr([{ sha, subject: 'p' }], new Map([[sha, partial]])).body).toContain('| 7+? / 10 |');\"\"\")\nopen(t,'w').write(s)\nEOF\nnpx tsc --noEmit && npx biome lint 2>&1 | grep -cE \"lint/.*error\"; npx tsup >/dev/null 2>&1; npx vitest run 2>&1 | grep -E \"×|Tests \"; git status --short"
+  },
+  "estimatedCostUsd": {
+    "amount": 1.998879,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T11:03:21.581Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
