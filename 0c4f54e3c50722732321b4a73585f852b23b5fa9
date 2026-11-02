@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "0c4f54e3c50722732321b4a73585f852b23b5fa9",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match",
+        "ran-commit"
+      ],
+      "aiLinesAdded": 44,
+      "estimatedCostUsd": 2.77957
+    },
+    {
+      "id": "9211d2d3-b733-4032-88b8-77cca379414e",
+      "agent": "gemini-cli",
+      "agentVersion": null,
+      "models": [
+        "gemma-4-31b-it"
+      ],
+      "confidence": "low",
+      "evidence": [
+        "time-window"
+      ],
+      "aiLinesAdded": 0,
+      "estimatedCostUsd": null
+    }
+  ],
+  "promptSummary": "its taking bit late (+3 more)",
+  "filesAttributed": [
+    {
+      "path": "README.md",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "53"
+    },
+    {
+      "path": "docs/log-formats.md",
+      "totalLinesAdded": 17,
+      "aiLinesAdded": 17,
+      "confidence": "high",
+      "aiLines": "11,150-153,176-178,180-181,183-185,187-189,195"
+    },
+    {
+      "path": "src/adapters/gemini-cli.ts",
+      "totalLinesAdded": 18,
+      "aiLinesAdded": 18,
+      "confidence": "high",
+      "aiLines": "8-10,61-62,66-75,82-84"
+    },
+    {
+      "path": "test/adapters.test.ts",
+      "totalLinesAdded": 3,
+      "aiLinesAdded": 3,
+      "confidence": "high",
+      "aiLines": "153-154,160"
+    },
+    {
+      "path": "test/fixtures/home/.gemini/tmp/demo-repo/chats/session-2026-11-02T10-16-5555aaaa.jsonl",
+      "totalLinesAdded": 5,
+      "aiLinesAdded": 5,
+      "confidence": "high",
+      "aiLines": "5-8,11"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 44,
+    "totalLinesAdded": 44,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "none",
+    "command": null
+  },
+  "estimatedCostUsd": {
+    "amount": 2.77957,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T10:56:43.735Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
