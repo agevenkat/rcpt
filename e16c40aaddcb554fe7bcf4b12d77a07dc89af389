@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "e16c40aaddcb554fe7bcf4b12d77a07dc89af389",
+  "aiAssisted": false,
+  "confidence": null,
+  "sessions": [],
+  "promptSummary": null,
+  "filesAttributed": [],
+  "totals": {
+    "aiLinesAdded": 0,
+    "totalLinesAdded": 0,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "none",
+    "command": null
+  },
+  "estimatedCostUsd": {
+    "amount": null,
+    "pricingVersion": "2026-11-02",
+    "confidence": "low",
+    "unpricedModels": []
+  },
+  "humanEditedAfterAi": null,
+  "isMerge": true,
+  "createdAt": "2026-11-02T11:19:22.090Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
