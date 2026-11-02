@@ -9,7 +9,7 @@ import { parseDiffAdded } from '../src/git.js';
 import { canonical, isUnder, normPath, relTo } from '../src/paths.js';
 import { isTestCommand } from '../src/util/test-commands.js';
 import type { Receipt } from '../src/types.js';
-import { at, claudeSession, codexSession, commitAt, geminiSession, gitIn, initRepo, tmpDir, write } from './helpers.js';
+import { at, claudeSession, codexSession, commitAt, geminiSession, gitIn, initRepo, noHooks, tmpDir, write } from './helpers.js';
 
 const T0 = new Date('2026-10-01T09:00:00Z');
 
@@ -118,6 +118,7 @@ describe('attribution (integration)', () => {
       events: [
         { t: at(T0, 330), kind: 'prompt', text: 'Generate the changelog and commit it' },
         { t: at(T0, 331), kind: 'bash', command: "python3 - <<'EOF'\nopen('CHANGELOG.md','w').write('...')\nEOF", exitCode: 0 },
+        { t: at(T0, 332), kind: 'write', path: path.join(repo, 'VERSION'), content: '1.0.0\n' },
         { t: at(T0, 340), kind: 'bash', command: 'git add -A && git commit -m "changelog"', exitCode: 0 },
       ],
     });
@@ -128,6 +129,7 @@ describe('attribution (integration)', () => {
       events: [{ t: at(T0, 340), kind: 'bash', command: `cd ${tmpDir('other')} && git commit -m other`, exitCode: 0 }],
     });
     write(path.join(repo, 'CHANGELOG.md'), '# Changelog\n- sum\n- mul\n');
+    write(path.join(repo, 'VERSION'), '1.0.0\nbuild 7\n'); // one line from the Write tool, one from somewhere else
     sha.c7 = commitAt(repo, at(T0, 340), 'changelog');
 
     for (const k of ['c0', 'c1', 'c2', 'c3', 'c4', 'c6', 'c7']) receipts[k] = await attribute(repo, sha[k]!);
@@ -199,20 +201,44 @@ describe('attribution (integration)', () => {
     expect(r.estimatedCostUsd.amount).toBeNull();
   });
 
-  it('agent that wrote via shell and ran the commit: AI-assisted, but line share unknown (null, not 0)', () => {
+  it('agent that also wrote via shell: unmatched lines are unknown (null or unknownLines), never assumed human', () => {
     const r = receipts.c7!;
     expect(r.aiAssisted).toBe(true);
     expect(r.sessions).toEqual([
-      expect.objectContaining({ id: 'claude-shell', confidence: 'medium', evidence: ['ran-commit'] }),
+      expect.objectContaining({ id: 'claude-shell', confidence: 'high', evidence: ['line-match', 'file-match', 'ran-commit'] }),
       expect.objectContaining({ id: 'claude-elsewhere', confidence: 'low', evidence: ['time-window'] }),
     ]);
-    expect(r.filesAttributed).toEqual([{ path: 'CHANGELOG.md', aiLinesAdded: null, totalLinesAdded: 3, confidence: 'low' }]);
-    expect(r.totals).toEqual({ aiLinesAdded: 0, totalLinesAdded: 3, unknownLines: 3, ignoredLines: 0 });
+    expect(r.filesAttributed).toEqual([
+      { path: 'CHANGELOG.md', aiLinesAdded: null, totalLinesAdded: 3, confidence: 'low' },
+      // Written by the Write tool, then a line from elsewhere while the agent was also writing via shell:
+      // the extra line is unknown, not human.
+      { path: 'VERSION', aiLinesAdded: 1, unknownLines: 1, totalLinesAdded: 2, confidence: 'medium', aiLines: '1' },
+    ]);
+    expect(r.totals).toEqual({ aiLinesAdded: 1, totalLinesAdded: 5, unknownLines: 4, ignoredLines: 0 });
     expect(r.humanEditedAfterAi).toBeNull();
   });
 
   it('merge commits are marked and not attributed', () => {
     expect(receipts.c6).toMatchObject({ isMerge: true, aiAssisted: false, filesAttributed: [] });
+  });
+
+  it('rebased onto a newer parent: the window follows the commit author time', async () => {
+    const r2 = tmpDir('rebased');
+    initRepo(r2);
+    write(path.join(r2, 'base.txt'), 'base\n');
+    commitAt(r2, at(T0, 1000), 'newer parent'); // parent created after the work below
+    claudeSession(home, {
+      id: 'claude-rebased',
+      cwd: r2,
+      events: [{ t: at(T0, 900), kind: 'write', path: path.join(r2, 'work.js'), content: 'export const w = 1;\n' }],
+    });
+    write(path.join(r2, 'work.js'), 'export const w = 1;\n');
+    gitIn(r2, ['add', '-A']);
+    // Authored before the parent existed (as after a rebase), committed after it.
+    gitIn(r2, [...noHooks(), 'commit', '-q', '-m', 'work'], { GIT_AUTHOR_DATE: at(T0, 905).toISOString(), GIT_COMMITTER_DATE: at(T0, 1010).toISOString() });
+    const r = await attribute(r2, 'HEAD');
+    expect(r.sessions).toEqual([expect.objectContaining({ id: 'claude-rebased', confidence: 'high' })]);
+    expect(r.totals).toMatchObject({ aiLinesAdded: 1, totalLinesAdded: 1 });
   });
 
   it('stores full prompts only when opted in', async () => {
@@ -318,6 +344,8 @@ describe('summarize', () => {
     expect(summarize([])).toBeNull();
     expect(summarize(['a\n  b', 'c'])).toBe('a b (+1 more)');
     expect(summarize(['x'.repeat(200)])!.length).toBe(140);
+    expect(summarize(['<pasted_content id="909a">\n# Build it\n</pasted_content> please'])).toBe('# Build it please');
+    expect(summarize(['keep a < b and b > c'])).toBe('keep a < b and b > c');
   });
 });
 

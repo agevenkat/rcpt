@@ -99,6 +99,8 @@ export interface FileAttribution {
   confidence: Confidence;
   /** Line numbers (in this commit's version of the file) matched to agent output, as ranges "3-5,9". */
   aiLines?: string;
+  /** Lines that can't be attributed either way (the agent also wrote files through shell commands). */
+  unknownLines?: number;
 }
 
 export interface Receipt {
@@ -126,7 +128,7 @@ export interface Receipt {
   prompts?: string[];
   filesAttributed: FileAttribution[];
   /**
-   * unknownLines: added lines in files whose aiLinesAdded is null. ignoredLines: lines in generated files
+   * unknownLines: added lines that can't be attributed (files with aiLinesAdded null, plus per-file unknownLines). ignoredLines: lines in generated files
    * (lockfiles, build output, config "ignore"), excluded from every other count.
    */
   totals: { aiLinesAdded: number; totalLinesAdded: number; unknownLines: number; ignoredLines: number };

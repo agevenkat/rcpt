@@ -22,7 +22,7 @@ export function formatReceipt(r: Receipt, subject?: string): string {
   if (r.filesAttributed.length) {
     out.push('', c.bold('Files                                  AI lines / added   confidence'));
     for (const f of r.filesAttributed) {
-      const ai = f.aiLinesAdded === null ? '?' : String(f.aiLinesAdded);
+      const ai = f.aiLinesAdded === null ? '?' : f.unknownLines ? `${f.aiLinesAdded}+?` : String(f.aiLinesAdded);
       out.push(`  ${f.path.length > 36 ? '…' + f.path.slice(-35) : f.path.padEnd(36)} ${`${ai} / ${f.totalLinesAdded}`.padStart(16)}   ${conf(f.confidence)}`);
     }
     const t = r.totals;

@@ -65,7 +65,10 @@ export async function attributeCommit(o: AttributeOptions): Promise<Receipt> {
   const meta = commitMeta(root, o.rev ?? 'HEAD');
   const base = emptyReceipt(meta.sha, o.pricing.version, o.now);
   if (meta.parents.length > 1) return { ...base, isMerge: true };
-  const parentTime = parentTimeOf(root, meta.parents[0], meta.committerTime, o.config);
+  let parentTime = parentTimeOf(root, meta.parents[0], meta.committerTime, o.config);
+  // Rebased or cherry-picked onto a parent that is newer than this commit's own authorship: the work predates
+  // the parent, so bound the window by the author time instead (with the same lookback as a first commit).
+  if (parentTime > meta.authorTime) parentTime = meta.authorTime - o.config.rootLookbackDays * 86_400_000;
   return attributeCore(o, base, roots, raw, parentTime, meta.committerTime, commitAddedLines(root, meta.sha));
 }
 
@@ -178,7 +181,13 @@ async function attributeCore(
     .filter((f) => f.total > 0)
     .map((f): FileAttribution => {
       const base = { path: f.path, totalLinesAdded: f.total };
-      if (f.touched) return { ...base, aiLinesAdded: f.ai, confidence: f.ai > 0 ? 'high' : 'medium', ...(f.ai ? { aiLines: toRanges(f.aiLineNos) } : {}) };
+      if (f.touched) {
+        const lines = f.ai ? { aiLines: toRanges(f.aiLineNos) } : {};
+        // Unmatched lines in a file the agent edited are human-written, unless the agent also ran
+        // file-writing shell commands: then they may be the agent's too, and the logs can't tell.
+        if (shellWrites && f.total > f.ai) return { ...base, aiLinesAdded: f.ai, unknownLines: f.total - f.ai, confidence: 'medium', ...lines };
+        return { ...base, aiLinesAdded: f.ai, confidence: f.ai > 0 ? 'high' : 'medium', ...lines };
+      }
       if (!sessions.length) return { ...base, aiLinesAdded: 0, confidence: 'high' };
       // An agent was active but logged no edit to this file. If it also ran file-writing shell commands,
       // its share is unknowable from the logs; otherwise the file is most likely human-written.
@@ -186,8 +195,9 @@ async function attributeCore(
     })
     .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
 
-  const touchedFiles = files.filter((f) => f.touched && f.total > 0);
-  const humanEditedAfterAi = touchedFiles.length ? touchedFiles.some((f) => f.total > f.ai) : null;
+  // Only decidable for AI-touched files whose every line is accounted for (no unknown lines).
+  const decidable = filesAttributed.filter((f) => files.find((x) => x.path === f.path)?.touched && !f.unknownLines && f.aiLinesAdded !== null);
+  const humanEditedAfterAi = decidable.length ? decidable.some((f) => f.totalLinesAdded > (f.aiLinesAdded ?? 0)) : null;
 
   // 4. Tests run by any candidate session inside the window, in this repo.
   const extra = compilePatterns(o.config.testPatterns);
@@ -239,7 +249,7 @@ async function attributeCore(
     totals: {
       aiLinesAdded: filesAttributed.reduce((n, f) => n + (f.aiLinesAdded ?? 0), 0),
       totalLinesAdded: filesAttributed.reduce((n, f) => n + f.totalLinesAdded, 0),
-      unknownLines: filesAttributed.reduce((n, f) => n + (f.aiLinesAdded === null ? f.totalLinesAdded : 0), 0),
+      unknownLines: filesAttributed.reduce((n, f) => n + (f.aiLinesAdded === null ? f.totalLinesAdded : (f.unknownLines ?? 0)), 0),
       ignoredLines,
     },
     testsRun: { status: testStatus, command: lastTest?.command ?? null },
@@ -336,7 +346,8 @@ export function mayWriteFiles(cmd: string): boolean {
 
 export function summarize(prompts: string[], max = 140): string | null {
   if (!prompts.length) return null;
-  let s = prompts[0]!.replace(/\s+/g, ' ').trim();
+  // Drop wrapper tags that agents add around pasted or injected text (e.g. <pasted_content id="…">).
+  let s = prompts[0]!.replace(/<\/?[a-z][\w-]*(\s[^<>]*)?>/gi, ' ').replace(/\s+/g, ' ').trim();
   if (s.length > max) s = s.slice(0, max - 1).trimEnd() + '…';
   return prompts.length > 1 ? `${s} (+${prompts.length - 1} more)` : s;
 }

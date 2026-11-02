@@ -189,6 +189,7 @@ function measureRewrites(root: string, rows: CommitRow[], o: ReportOptions, now:
       if (!lines.length) continue;
       const survivors = survivingLines(root, row.sha, target, f.path);
       for (const n of lines) {
+        if (!aiSet.has(n) && f.unknownLines) continue; // unattributable line: neither AI nor human
         const bucket = aiSet.has(n) ? out.ai : out.human;
         bucket.lines++;
         if (!survivors.has(n)) bucket.rewritten++;
