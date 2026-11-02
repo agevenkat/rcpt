@@ -17,355 +17,409 @@
         "file-match",
         "ran-commit"
       ],
-      "aiLinesAdded": 9,
-      "estimatedCostUsd": 2.107816
+      "aiLinesAdded": 4801,
+      "estimatedCostUsd": 18.243699
     }
   ],
-  "promptSummary": "i run the code",
+  "promptSummary": "<pasted_content id=\"909a\"> # Build AgentLedger: receipts for AI-written code You are building AgentLedger, an open-source, local-first CLI… (+5 more)",
   "filesAttributed": [
     {
       "path": ".github/workflows/ci.yml",
       "totalLinesAdded": 30,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 30,
+      "confidence": "high",
+      "aiLines": "1,3-6,8-9,11-33"
     },
     {
       "path": ".gitignore",
       "totalLinesAdded": 5,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 5,
+      "confidence": "high",
+      "aiLines": "1-5"
     },
     {
       "path": "CONTRIBUTING.md",
       "totalLinesAdded": 70,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 70,
+      "confidence": "high",
+      "aiLines": "1,3-7,9,11,13,15,17,19-21,23,25,27,29-33,35-64,66,68,70-74,76,78-81,83,85,87,89-91"
     },
     {
       "path": "LICENSE",
       "totalLinesAdded": 17,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 17,
+      "confidence": "high",
+      "aiLines": "1,3,5-10,12-13,15-21"
     },
     {
       "path": "README.md",
       "totalLinesAdded": 99,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 99,
+      "confidence": "high",
+      "aiLines": "1,3,5-6,8-12,14-17,19-22,24,26-30,32,34-43,45,47,49-54,56,58,60-65,67,69,71-78,80,82,84,86-96,98,100,102-114,116-117,119,121,123-126,128,130"
     },
     {
       "path": "action/action.yml",
       "totalLinesAdded": 26,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 26,
+      "confidence": "high",
+      "aiLines": "1-26"
     },
     {
       "path": "action/package.json",
       "totalLinesAdded": 1,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "1"
     },
     {
       "path": "action/src/main.ts",
       "totalLinesAdded": 78,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 78,
+      "confidence": "high",
+      "aiLines": "1-6,8-9,11-13,15-24,26-35,37-47,49-55,57-65,67-82,84-87"
     },
     {
       "path": "biome.json",
       "totalLinesAdded": 14,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 14,
+      "confidence": "high",
+      "aiLines": "1-14"
     },
     {
       "path": "docs/log-formats.md",
       "totalLinesAdded": 150,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 150,
+      "confidence": "high",
+      "aiLines": "1,3-5,7-11,13,15-18,20,22,24,26-29,31-32,34-37,39-41,43-52,54-56,58-59,61-78,80,82,84,86-90,92-94,96-97,99-100,102-111,113-120,122-127,129-132,134-137,139-144,146,148,150-152,154-155,157,159-170,172-183,185-186"
     },
     {
       "path": "package.json",
       "totalLinesAdded": 50,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 50,
+      "confidence": "high",
+      "aiLines": "1-50"
     },
     {
       "path": "src/adapters/builder.ts",
       "totalLinesAdded": 112,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 112,
+      "confidence": "high",
+      "aiLines": "1-5,7-21,23-30,32-34,36-42,44-46,48-63,65-67,69-80,82-90,92-115,117-123"
     },
     {
       "path": "src/adapters/claude-code.ts",
       "totalLinesAdded": 172,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 172,
+      "confidence": "high",
+      "aiLines": "1-5,7-8,10-13,15-17,19-39,41-43,45-47,49-67,69-83,85-105,107-119,121-125,127-135,137-150,152-157,159-179,181-188"
     },
     {
       "path": "src/adapters/codex.ts",
       "totalLinesAdded": 178,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 178,
+      "confidence": "high",
+      "aiLines": "1-5,7-10,12,14-16,18-37,39-40,42-47,49-52,54-60,62-124,126-142,144-178,180-185,187-191"
     },
     {
       "path": "src/adapters/gemini-cli.ts",
       "totalLinesAdded": 112,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 112,
+      "confidence": "high",
+      "aiLines": "1-5,7-8,10,12-13,15-35,37-55,57-85,87-91,93-115,117-121"
     },
     {
       "path": "src/adapters/index.ts",
       "totalLinesAdded": 12,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 12,
+      "confidence": "high",
+      "aiLines": "1-5,7-8,10-13,15"
     },
     {
       "path": "src/adapters/types.ts",
       "totalLinesAdded": 37,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 37,
+      "confidence": "high",
+      "aiLines": "1,3-7,9-12,14-17,19-23,25-31,33-43"
     },
     {
       "path": "src/attribute.ts",
       "totalLinesAdded": 332,
-      "aiLinesAdded": 0,
-      "confidence": "medium"
+      "aiLinesAdded": 332,
+      "confidence": "high",
+      "aiLines": "1-13,15-24,26-28,30-33,35-40,42-54,56-61,63-70,72-84,86-102,104-105,107-122,124-172,174-184,186-187,189-197,199-205,207-215,217-246,248-269,271-290,292-303,305-310,312-315,317-332,334-339,341-358"
     },
     {
       "path": "src/cli.ts",
       "totalLinesAdded": 184,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 184,
+      "confidence": "high",
+      "aiLines": "1-18,20-21,23-29,31-65,67-81,83-100,102-121,123-138,140-148,150-159,161-168,170-179,181-190,192-197"
     },
     {
       "path": "src/config.ts",
       "totalLinesAdded": 87,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 87,
+      "confidence": "high",
+      "aiLines": "1-5,7,9-24,26-31,33-46,48-56,58-66,68-83,85-95"
     },
     {
       "path": "src/cost.ts",
       "totalLinesAdded": 70,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 70,
+      "confidence": "high",
+      "aiLines": "1-2,4-5,7-10,12,14-24,26-39,41-45,47-77"
     },
     {
       "path": "src/doctor.ts",
       "totalLinesAdded": 89,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 89,
+      "confidence": "high",
+      "aiLines": "1-2,4-22,24-34,36-64,66-93"
     },
     {
       "path": "src/format.ts",
       "totalLinesAdded": 42,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 42,
+      "confidence": "high",
+      "aiLines": "1,3-5,7-9,11-14,16-20,22-34,36-48"
     },
     {
       "path": "src/git.ts",
       "totalLinesAdded": 110,
-      "aiLinesAdded": 0,
-      "confidence": "medium"
+      "aiLinesAdded": 110,
+      "confidence": "high",
+      "aiLines": "1,3-10,12-14,16-26,28-34,36-44,46-50,52-56,58-89,91,93-115,117-121"
     },
     {
       "path": "src/hook.ts",
       "totalLinesAdded": 96,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 96,
+      "confidence": "high",
+      "aiLines": "1-11,13-17,19-23,25-36,38-46,48-54,56-66,68-74,76-104"
     },
     {
       "path": "src/install.ts",
       "totalLinesAdded": 215,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 215,
+      "confidence": "high",
+      "aiLines": "1-5,7-8,10-11,13,15-23,25-28,30-35,37-40,42,44-46,48-54,56-59,61-62,64-84,86-90,92,94-107,109-112,114-126,128-152,154-168,170-177,179-185,187-193,195-197,199-205,207-220,222-242"
     },
     {
       "path": "src/log.ts",
       "totalLinesAdded": 14,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 14,
+      "confidence": "high",
+      "aiLines": "1-3,5-15"
     },
     {
       "path": "src/notes.ts",
       "totalLinesAdded": 103,
-      "aiLinesAdded": 6,
+      "aiLinesAdded": 103,
       "confidence": "high",
-      "aiLines": "19,23,27,30,100,103"
+      "aiLines": "1-6,8-10,12-19,21-23,25-35,37-70,72-89,91-98,100-111"
     },
     {
       "path": "src/paths.ts",
       "totalLinesAdded": 45,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 45,
+      "confidence": "high",
+      "aiLines": "1-3,5-8,10-33,35-40,42-45,47-50"
     },
     {
       "path": "src/pr-summary.ts",
       "totalLinesAdded": 81,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 81,
+      "confidence": "high",
+      "aiLines": "1,3,5-8,10-16,18-19,21-25,27-33,35-42,44-46,48-55,57-70,72-84,86-87,89-94"
     },
     {
       "path": "src/pricing.json",
       "totalLinesAdded": 39,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 39,
+      "confidence": "high",
+      "aiLines": "1-26,28-32,34-41"
     },
     {
       "path": "src/report/data.ts",
       "totalLinesAdded": 207,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 205,
+      "confidence": "high",
+      "aiLines": "1-7,9-16,18-23,25-29,31-47,49,51-55,57-69,71-86,88-91,93-115,117-121,123,125-129,131-136,138-142,144-158,160-172,174-201,203-224"
     },
     {
       "path": "src/report/html.ts",
       "totalLinesAdded": 177,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 177,
+      "confidence": "high",
+      "aiLines": "1,3-5,7-10,12-14,16-65,67-69,71-85,87-94,96-98,100-111,113-146,148,150-153,155-158,160-168,170-172,174-193"
     },
     {
       "path": "src/types.ts",
       "totalLinesAdded": 134,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 134,
+      "confidence": "high",
+      "aiLines": "1,3,5,7,9-19,21-25,27-31,33-45,47-55,57-76,78-83,85,87-102,104-147"
     },
     {
       "path": "src/util/duration.ts",
       "totalLinesAdded": 7,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 7,
+      "confidence": "high",
+      "aiLines": "1,3-8"
     },
     {
       "path": "src/util/lines.ts",
       "totalLinesAdded": 87,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 87,
+      "confidence": "high",
+      "aiLines": "1,3-10,12-15,17-24,26-29,31-41,43,45-60,62-65,67-93,95-97"
     },
     {
       "path": "src/util/read.ts",
       "totalLinesAdded": 87,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 86,
+      "confidence": "high",
+      "aiLines": "1-4,6-7,9,11,13-25,27-41,43-50,52-59,61-74,76-90,92-96"
     },
     {
       "path": "src/util/redact.ts",
       "totalLinesAdded": 29,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 29,
+      "confidence": "high",
+      "aiLines": "1-2,4-19,21-23,25-32"
     },
     {
       "path": "src/util/test-commands.ts",
       "totalLinesAdded": 38,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 38,
+      "confidence": "high",
+      "aiLines": "1,3-21,23-36,38-41"
     },
     {
       "path": "src/version.ts",
       "totalLinesAdded": 2,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 2,
+      "confidence": "high",
+      "aiLines": "1,3"
     },
     {
       "path": "test/action.test.ts",
       "totalLinesAdded": 138,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 137,
+      "confidence": "high",
+      "aiLines": "1-10,12,14-32,34-54,56-63,65-69,71-76,79-92,94-118,120-134,136-148"
     },
     {
       "path": "test/adapters.test.ts",
       "totalLinesAdded": 161,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 161,
+      "confidence": "high",
+      "aiLines": "1-8,10-11,13-18,20-25,27-36,38-42,44-48,50-64,66-69,71-74,76-79,81-85,87-105,107-119,121-135,137-140,142-158,160-178"
     },
     {
       "path": "test/attribute.test.ts",
       "totalLinesAdded": 349,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 349,
+      "confidence": "high",
+      "aiLines": "1-12,14,16-23,25-27,29-31,33-44,46-63,65-67,69-94,96-108,110-112,114-131,133-135,137-142,144-156,158-172,174-179,181-193,195-200,202-212,214-216,218-221,223-226,228-231,233-265,267-274,276-281,283-285,287-294,296-301,303-306,308-314,316-322,324-340,342-351,353-363,365-370,372-378,380-387"
     },
     {
       "path": "test/fixtures/home/.claude/projects/-tmp-demo-repo/11111111-1111-4111-8111-111111111111.jsonl",
       "totalLinesAdded": 15,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 15,
+      "confidence": "high",
+      "aiLines": "1-15"
     },
     {
       "path": "test/fixtures/home/.claude/projects/-tmp-demo-repo/11111111-1111-4111-8111-111111111111/subagents/agent-a0000000000000001.jsonl",
       "totalLinesAdded": 3,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 3,
+      "confidence": "high",
+      "aiLines": "1-3"
     },
     {
       "path": "test/fixtures/home/.codex/sessions/2026/10/01/rollout-2026-10-01T11-00-00-22222222-2222-4222-8222-222222222222.jsonl",
       "totalLinesAdded": 11,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 11,
+      "confidence": "high",
+      "aiLines": "1-11"
     },
     {
       "path": "test/fixtures/home/.codex/sessions/2026/10/01/rollout-2026-10-01T12-00-00-33333333-3333-4333-8333-333333333333.jsonl",
       "totalLinesAdded": 11,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 11,
+      "confidence": "high",
+      "aiLines": "1-11"
     },
     {
       "path": "test/fixtures/home/.gemini/tmp/0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f/chats/session-2026-10-01T13-00-abcd1234.json",
       "totalLinesAdded": 28,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 28,
+      "confidence": "high",
+      "aiLines": "1-28"
     },
     {
       "path": "test/git-hooks.test.ts",
       "totalLinesAdded": 325,
-      "aiLinesAdded": 0,
-      "confidence": "medium"
+      "aiLinesAdded": 325,
+      "confidence": "high",
+      "aiLines": "1-9,11-15,17-19,21-29,31-45,47-55,57-76,78,80-87,89-94,96-110,112-113,115,117-132,134-141,143-149,151-161,163-169,171-185,187-200,202-212,214-227,229-238,240-251,253-256,258-272,274-279,281-297,299-317,319-324,326-338,340-347,349-355,357-358"
     },
     {
       "path": "test/global-setup.ts",
       "totalLinesAdded": 7,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 7,
+      "confidence": "high",
+      "aiLines": "1-2,4-8"
     },
     {
       "path": "test/helpers.ts",
       "totalLinesAdded": 117,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 117,
+      "confidence": "high",
+      "aiLines": "1-6,8-10,12-29,31-34,36-39,41-46,48-54,56,58-61,63-93,95-98,100-122,124-129"
     },
     {
       "path": "test/report.test.ts",
       "totalLinesAdded": 80,
-      "aiLinesAdded": 3,
+      "aiLinesAdded": 80,
       "confidence": "high",
-      "aiLines": "22,35,55"
+      "aiLines": "1-10,12-13,15-18,20-24,26-37,39-42,44-46,48-50,52-55,57-59,61-65,67-71,73-75,77-82,84-94"
     },
     {
       "path": "test/util.test.ts",
       "totalLinesAdded": 93,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 93,
+      "confidence": "high",
+      "aiLines": "1-8,10-22,24-28,30-34,36-40,42-48,50-53,55-58,60-64,66-68,70-72,74-84,86-91,93-101,103-107"
     },
     {
       "path": "tsconfig.json",
       "totalLinesAdded": 15,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 15,
+      "confidence": "high",
+      "aiLines": "1-15"
     },
     {
       "path": "tsup.config.ts",
       "totalLinesAdded": 19,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 6,
+      "confidence": "high",
+      "aiLines": "1,5-9"
     },
     {
       "path": "vitest.config.ts",
       "totalLinesAdded": 8,
-      "aiLinesAdded": null,
-      "confidence": "low"
+      "aiLinesAdded": 8,
+      "confidence": "high",
+      "aiLines": "1,3-9"
     }
   ],
   "totals": {
-    "aiLinesAdded": 9,
+    "aiLinesAdded": 4801,
     "totalLinesAdded": 4818,
-    "unknownLines": 3868,
+    "unknownLines": 0,
     "ignoredLines": 3361
   },
   "testsRun": {
@@ -373,14 +427,14 @@
     "command": "python3 - <<'EOF'\np='test/report.test.ts'; s=open(p).read()\ns+=\"\"\"\ndescribe('notes without a configured git identity', () => {\n  it('falls back to an rcpt identity instead of failing (fresh machines, CI)', async () => {\n    const repo = tmpDir('noident');\n    initRepo(repo);\n    write(path.join(repo, 'a.txt'), 'a\\\\n');\n    const sha = commitAt(repo, new Date('2026-10-01T00:00:00Z'), 'a');\n    gitIn(repo, ['config', 'user.useConfigOnly', 'true']);\n    const saved = { g: process.env.GIT_CONFIG_GLOBAL, s: process.env.GIT_CONFIG_NOSYSTEM };\n    process.env.GIT_CONFIG_GLOBAL = path.join(tmpDir('emptycfg'), 'none');\n    process.env.GIT_CONFIG_NOSYSTEM = '1';\n    for (const k of ['GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL']) delete process.env[k];\n    try {\n      const r = await attributeCommit({ repoDir: repo, rev: sha, adapters: [], config: DEFAULT_CONFIG, pricing: loadPricing() });\n      await writeReceipt(repo, sha, r);\n      expect(readReceipt(repo, sha)?.commitSha).toBe(sha);\n      expect(gitIn(repo, ['log', '-1', '--format=%an <%ae>', 'refs/notes/rcpt']).trim()).toBe('rcpt <rcpt@localhost>');\n    } finally {\n      process.env.GIT_CONFIG_GLOBAL = saved.g;\n      if (saved.s === undefined) delete process.env.GIT_CONFIG_NOSYSTEM;\n      else process.env.GIT_CONFIG_NOSYSTEM = saved.s;\n    }\n  });\n});\n\"\"\"\ns=s.replace(\"import { writeReceipt } from '../src/notes.js';\",\"import { readReceipt, writeReceipt } from '../src/notes.js';\")\ns=s.replace(\"import { at, claudeSession, commitAt, initRepo, tmpDir, write } from './helpers.js';\",\"import { at, claudeSession, commitAt, gitIn, initRepo, tmpDir, write } from './helpers.js';\")\nopen(p,'w').write(s)\nEOF\nnpx tsc --noEmit && npx biome lint 2>&1 | grep -E \"error|Found [0-9]+ error\"; npx tsup >/dev/null 2>&1; git status --short; npx vitest run 2>&1 | grep -E \"×|Tests \""
   },
   "estimatedCostUsd": {
-    "amount": 2.107816,
+    "amount": 18.243699,
     "confidence": "medium",
     "unpricedModels": [],
     "pricingVersion": "2026-11-02"
   },
   "humanEditedAfterAi": true,
   "isMerge": false,
-  "createdAt": "2026-11-02T10:56:42.881Z",
+  "createdAt": "2026-11-02T10:57:32.902Z",
   "generator": {
     "name": "rcpt",
     "version": "0.1.0"
