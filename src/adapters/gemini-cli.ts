@@ -5,8 +5,9 @@ import { SessionBuilder, failed } from './builder.js';
 import { exists, isObj, num, parseJsonl, readLogText, str, walkFiles, withMtimes } from '../util/read.js';
 import { diffStrings, parseUnifiedDiff, type LineDelta } from '../util/lines.js';
 
-// PARTLY VERIFIED (Gemini CLI 0.66.0): location, JSONL envelope and user messages were observed; the shape of
-// model replies and tool calls still follows the documented format. See docs/log-formats.md#gemini-cli.
+// PARTLY VERIFIED (Gemini CLI 0.66.0): location, JSONL envelope, user/model/error messages, token counts,
+// streamed rewrites and $rewindTo were observed. File-writing and shell tool calls (write_file, replace,
+// run_shell_command) were not yet observed and follow the documented format. See docs/log-formats.md#gemini-cli.
 // Two layouts are supported:
 //   0.66+: tmp/<project-name>/chats/session-*.jsonl, with tmp/<project-name>/.project_root holding the path
 //   older (documented): tmp/<sha256(project root)>/chats/session-*.json, one JSON document
@@ -57,18 +58,30 @@ async function load(file: string, b: SessionBuilder): Promise<{ header: Record<s
     return { header: doc, messages: doc.messages };
   }
   const header: Record<string, unknown> = {};
-  const byId = new Map<string, unknown>();
+  const byId = new Map<string, Record<string, unknown>>();
+  const order: string[] = [];
   let anon = 0;
   for (const line of parseJsonl(text, file, b.warnings)) {
     if (!isObj(line)) continue;
-    if (isObj(line.$set)) {
+    if (typeof line.$rewindTo === 'string') {
+      // Retry/rewind (observed after failed requests): history is cut back to that message. Prompts after it
+      // are dropped so a retried prompt isn't counted twice. Model messages stay: their tokens were spent and
+      // their edits may be on disk (line matching against the commit decides).
+      const at = order.indexOf(line.$rewindTo);
+      if (at >= 0) {
+        for (const id of order.splice(at + 1)) if (byId.get(id)?.type === 'user') byId.delete(id);
+        b.skip('$rewindTo');
+      } else b.skip('$rewindTo:unknown-id');
+    } else if (isObj(line.$set)) {
       // Header updates, e.g. { "$set": { "lastUpdated": … } }
       for (const [k, v] of Object.entries(line.$set)) {
         if (k === 'lastUpdated') b.seen(v);
         else b.skip(`$set:${k}`);
       }
     } else if (typeof line.type === 'string') {
-      byId.set(str(line.id) ?? `anon-${anon++}`, line);
+      const id = str(line.id) ?? `anon-${anon++}`;
+      if (!byId.has(id)) order.push(id);
+      byId.set(id, line);
     } else if (str(line.sessionId)) {
       Object.assign(header, line);
     } else {

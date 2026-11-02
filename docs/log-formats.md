@@ -8,7 +8,7 @@ prompt text, code or real paths. Update it whenever an adapter changes.
 |---|---|---|---|---|
 | Claude Code | **verified** | 2.1.284 – 2.1.316 | 2026-11-02, macOS | 827 files / 174,644 lines (30 days) |
 | Codex CLI | **verified** | 0.95.0-alpha.7 – 0.163.0-alpha.10.2 | 2026-11-02, macOS | 28 rollouts / 16k+ lines |
-| Gemini CLI | **partly verified** | 0.66.0 | 2026-11-02, macOS | 1 session / 17 lines (envelope and user messages only; no model replies yet) |
+| Gemini CLI | **partly verified** | 0.66.0 | 2026-11-02, macOS | 1 session / 46 lines (no file-writing or shell tool calls yet) |
 
 General rules for every adapter:
 
@@ -147,10 +147,10 @@ used, because it also carries injected context (environment, AGENTS.md).
 
 ## Gemini CLI — PARTLY VERIFIED
 
-Observed on **0.66.0** (2026-11-02): the location, file layout, JSONL envelope, user messages and `info`
-messages. Not yet observed: model (`gemini`) messages, token usage, tool calls. The only real session got no
-reply (two Google sign-ins, then `security.auth.selectedType = gemini-api-key`). Those parts still follow the
-documented format below.
+Observed on **0.66.0** (2026-11-02): the location, file layout, JSONL envelope, `user`/`gemini`/`info`/`error`
+messages, token counts, streamed rewrites, `$rewindTo` retries, and tool calls with their `result`/`resultDisplay`
+shape (for `read_file` and `update_topic`). **Not yet observed:** `write_file`, `replace`, `run_shell_command`. The
+session hit the daily quota before Gemini edited anything, so those three still follow the documented format below.
 
 **Location (observed, 0.66.0):**
 
@@ -173,16 +173,26 @@ are **not read**.
 | header update | `{"$set": {"lastUpdated": ISO}}` (after most messages) | end time. Other `$set` keys are counted as skipped |
 | user message | `{id, timestamp, type: "user", content: [{text}]}` | prompt (redacted) |
 | info message | `{id, timestamp, type: "info", content: string}` (auth notices etc.) | skipped |
-| model message | `{id, timestamp, type: "gemini", …}` — **not yet observed**, assumed as documented below | model, usage, tool calls |
+| model message | `{id, timestamp, type: "gemini", model, content: string, thoughts: [{subject, description, timestamp}], tokens, toolCalls?}` | model, usage, tool calls |
+| error message | `{id, timestamp, type: "error", content}` (e.g. quota exhausted) | skipped |
+| retry | `{"$rewindTo": <message id>}`: history cut back to that message before a prompt is retried | prompts after it are dropped; model messages are kept (tokens were spent) |
 
-If the same message `id` appears more than once, the last line wins. That's a defensive assumption for
-streamed updates, not yet observed.
+The same message `id` can appear more than once (observed: a `gemini` message written once without and
+once with `toolCalls`). The last line wins.
+
+**Token counts (observed):** `{input, output, cached, thoughts, tool, total}` with `total = input + output +
+thoughts` (11148 + 77 + 226 = 11451). rcpt counts thoughts as output. `cached` was 0 in the observed
+session, so whether `input` includes it is still the documented assumption.
+
+**Tool calls (observed shape):** `{id, name, args, result: [{functionResponse: {id, name, response}}], status,
+timestamp, resultDisplay, displayName, description, renderOutputAsMarkdown}`. For `read_file`, `resultDisplay`
+is a string. Observed tool names: `read_file`, `update_topic`. Both are skipped because they don't change files.
 
 **Older layout (documented, not observed):** `~/.gemini/tmp/<sha256(project root)>/chats/session-*.json`,
 a single JSON document `{sessionId, projectHash, startTime, lastUpdated, messages: [...]}`. Both layouts are
 supported. In the old one, attribution matches sessions to repos by hashing candidate repo roots.
 
-**Model messages and tool calls (documented, unverified):**
+**File-writing and shell tools (documented, unverified):**
 
 ```jsonc
 { "id", "timestamp", "type": "gemini", "model": "…", "content": "…",

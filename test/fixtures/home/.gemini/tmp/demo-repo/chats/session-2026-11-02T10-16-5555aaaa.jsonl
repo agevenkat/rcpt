@@ -2,8 +2,12 @@
 {"id":"u1","timestamp":"2026-11-02T10:16:01.000Z","type":"user","content":[{"text":"Add a divide function. token: ghp_FAKEFAKEFAKEFAKEFAKEFAKE1234"}]}
 {"$set":{"lastUpdated":"2026-11-02T10:16:01.000Z"}}
 {"id":"i1","timestamp":"2026-11-02T10:16:02.000Z","type":"info","content":"Authentication succeeded"}
+{"id":"e1","timestamp":"2026-11-02T10:16:03.000Z","type":"error","content":"[API Error: quota exhausted]"}
+{"id":"u-failed","timestamp":"2026-11-02T10:16:03.500Z","type":"user","content":[{"text":"this attempt failed and is rewound"}]}
+{"$rewindTo":"i1"}
+{"id":"u1b","timestamp":"2026-11-02T10:16:04.000Z","type":"user","content":[{"text":"Add a divide function (retry)"}]}
 {"$set":{"lastUpdated":"2026-11-02T10:16:02.000Z"}}
 {"id":"g1","timestamp":"2026-11-02T10:16:05.000Z","type":"gemini","model":"gemini-3.8-flash","content":"Working on it","tokens":{"input":100,"output":10,"cached":0,"thoughts":0,"tool":0,"total":110}}
-{"id":"g1","timestamp":"2026-11-02T10:16:06.000Z","type":"gemini","model":"gemini-3.8-flash","content":"Done.","tokens":{"input":1200,"output":80,"cached":200,"thoughts":20,"tool":0,"total":1300},"toolCalls":[{"id":"c1","name":"write_file","status":"success","timestamp":"2026-11-02T10:16:05.500Z","args":{"file_path":"/tmp/demo-repo/div.js","content":"export const div = (a, b) => a / b;\n"}}]}
+{"id":"g1","timestamp":"2026-11-02T10:16:06.000Z","type":"gemini","model":"gemini-3.8-flash","content":"Done.","thoughts":[{"subject":"s","description":"d","timestamp":"2026-11-02T10:16:05.200Z"}],"tokens":{"input":1200,"output":80,"cached":200,"thoughts":20,"tool":0,"total":1300},"toolCalls":[{"id":"c1","name":"write_file","status":"success","timestamp":"2026-11-02T10:16:05.500Z","args":{"file_path":"/tmp/demo-repo/div.js","content":"export const div = (a, b) => a / b;\n"}}]}
 {"$set":{"lastUpdated":"2026-11-02T10:16:06.000Z","newField":1}}
 {"id":"u2","timestamp":"2026-11-02T10:16:0

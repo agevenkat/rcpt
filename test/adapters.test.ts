@@ -150,13 +150,14 @@ describe('gemini-cli adapter (unverified)', () => {
     const { session: s, warnings, skippedEvents } = await byName('5555aaaa');
     expect(s!.id).toBe('55555555-5555-4555-8555-555555555555');
     expect(s!.cwd).toBe('/tmp/demo-repo');
-    expect(s!.prompts.map((p) => p.text)).toEqual(['Add a divide function. token: [REDACTED:github-token]']);
+    // u1 survives (the rewind target i1 comes after it); the retried prompt u1b is the second one.
+    expect(s!.prompts.map((p) => p.text)).toEqual(['Add a divide function. token: [REDACTED:github-token]', 'Add a divide function (retry)']);
     // A message rewritten under the same id counts once (the last version).
     expect(s!.tokenUsage).toEqual({ 'gemini-3.8-flash': { input: 1000, output: 100, cacheRead: 200, cacheWrite: 0, cacheWrite1h: 0 } });
     expect(s!.fileEdits.map((e) => [path.basename(e.path), e.kind, e.linesAdded])).toEqual([['div.js', 'create', 1]]);
     expect(s!.endedAt).toBe('2026-11-02T10:16:06.000Z');
     expect(warnings).toEqual([expect.objectContaining({ message: 'skipped unparseable line' })]);
-    expect(skippedEvents).toMatchObject({ 'message:info': 1, '$set:newField': 1 });
+    expect(skippedEvents).toMatchObject({ 'message:info': 1, 'message:error': 1, '$rewindTo': 1, '$set:newField': 1 });
   });
 
   it('parses a documented-format chat file', async () => {
