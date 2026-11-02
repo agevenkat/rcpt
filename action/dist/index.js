@@ -99,10 +99,12 @@ function summarizePr(commits, receipts) {
     if (!r) return `| ${short} | ${subj} | no receipt | | | |`;
     if (r.isMerge) return `| ${short} | ${subj} | merge | | | |`;
     const who = r.aiAssisted ? r.sessions.filter((s) => s.confidence !== "low").map((s) => `${s.agent}/${s.models[0] ?? "?"}`).join(", ") : "human";
-    const lines = `${r.totals.unknownLines ? "?" : r.totals.aiLinesAdded} / ${r.totals.totalLinesAdded}`;
-    const t = { passed: "\u2705", failed: "\u274C", unknown: "\u2754", none: "\u2014" }[r.testsRun.status];
+    const t = r.totals;
+    const ai2 = !t.unknownLines ? String(t.aiLinesAdded) : t.aiLinesAdded ? `${t.aiLinesAdded}+?` : "?";
+    const lines = `${ai2} / ${t.totalLinesAdded}`;
+    const tests2 = { passed: "\u2705", failed: "\u274C", unknown: "\u2754", none: "\u2014" }[r.testsRun.status];
     const cost = r.aiAssisted && r.estimatedCostUsd.amount !== null ? usd(r.estimatedCostUsd.amount) : "\u2014";
-    return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ""} | ${lines} | ${t} | ${cost} |`;
+    return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ""} | ${lines} | ${tests2} | ${cost} |`;
   }).join("\n");
   const body = [
     COMMENT_MARKER,

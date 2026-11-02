@@ -62,10 +62,12 @@ export function summarizePr(commits: PrCommit[], receipts: Map<string, Receipt>)
       if (!r) return `| ${short} | ${subj} | no receipt | | | |`;
       if (r.isMerge) return `| ${short} | ${subj} | merge | | | |`;
       const who = r.aiAssisted ? r.sessions.filter((s) => s.confidence !== 'low').map((s) => `${s.agent}/${s.models[0] ?? '?'}`).join(', ') : 'human';
-      const lines = `${r.totals.unknownLines ? '?' : r.totals.aiLinesAdded} / ${r.totals.totalLinesAdded}`;
-      const t = { passed: '✅', failed: '❌', unknown: '❔', none: '—' }[r.testsRun.status];
+      const t = r.totals;
+      const ai = !t.unknownLines ? String(t.aiLinesAdded) : t.aiLinesAdded ? `${t.aiLinesAdded}+?` : '?';
+      const lines = `${ai} / ${t.totalLinesAdded}`;
+      const tests = { passed: '✅', failed: '❌', unknown: '❔', none: '—' }[r.testsRun.status];
       const cost = r.aiAssisted && r.estimatedCostUsd.amount !== null ? usd(r.estimatedCostUsd.amount) : '—';
-      return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ''} | ${lines} | ${t} | ${cost} |`;
+      return `| ${short} | ${subj} | ${mdEscape(who)}${r.confidence && r.aiAssisted ? ` (${r.confidence})` : ''} | ${lines} | ${tests} | ${cost} |`;
     })
     .join('\n');
 

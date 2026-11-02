@@ -60,6 +60,8 @@ describe('summarizePr', () => {
     expect(s.headline).toContain('tests ❌');
     expect(s.headline).not.toContain('est.');
     expect(s.body).toContain('fix \\| table \\*bold\\*');
+    const partial = receipt(sha, { ai: 7, total: 10, unknown: 3 });
+    expect(summarizePr([{ sha, subject: 'p' }], new Map([[sha, partial]])).body).toContain('| 7+? / 10 |');
   });
 
   it('makes a shields.io badge', () => {
