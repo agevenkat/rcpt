@@ -19,7 +19,7 @@
       "estimatedCostUsd": 18.009932
     }
   ],
-  "promptSummary": "<pasted_content id=\"909a\"> # Build AgentLedger: receipts for AI-written code You are building AgentLedger, an open-source, local-first CLI… (+5 more)",
+  "promptSummary": "# Build AgentLedger: receipts for AI-written code You are building AgentLedger, an open-source, local-first CLI that records a \"receipt\" fo… (+5 more)",
   "filesAttributed": [],
   "totals": {
     "aiLinesAdded": 0,
@@ -39,7 +39,7 @@
   },
   "humanEditedAfterAi": null,
   "isMerge": false,
-  "createdAt": "2026-11-02T10:57:29.606Z",
+  "createdAt": "2026-11-02T10:58:35.704Z",
   "generator": {
     "name": "rcpt",
     "version": "0.1.0"
