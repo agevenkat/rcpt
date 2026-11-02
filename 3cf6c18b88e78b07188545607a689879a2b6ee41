@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "3cf6c18b88e78b07188545607a689879a2b6ee41",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match",
+        "ran-commit"
+      ],
+      "aiLinesAdded": 2,
+      "estimatedCostUsd": 0.642602
+    },
+    {
+      "id": "9211d2d3-b733-4032-88b8-77cca379414e",
+      "agent": "gemini-cli",
+      "agentVersion": null,
+      "models": [
+        "gemma-4-31b-it"
+      ],
+      "confidence": "low",
+      "evidence": [
+        "time-window"
+      ],
+      "aiLinesAdded": 0,
+      "estimatedCostUsd": null
+    }
+  ],
+  "promptSummary": "ok, you can continue with other task now",
+  "filesAttributed": [
+    {
+      "path": "action/action.yml",
+      "totalLinesAdded": 2,
+      "aiLinesAdded": 2,
+      "confidence": "high",
+      "aiLines": "15,19"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 2,
+    "totalLinesAdded": 2,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "none",
+    "command": null
+  },
+  "estimatedCostUsd": {
+    "amount": 0.642602,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T10:56:44.192Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
