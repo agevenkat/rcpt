@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "3c0969acce9c7ace13dff0f02cc712550d2a44f4",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match"
+      ],
+      "aiLinesAdded": 8,
+      "estimatedCostUsd": 0.587947
+    }
+  ],
+  "promptSummary": "(Bash completed with no output)",
+  "filesAttributed": [
+    {
+      "path": ".gitignore",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": null,
+      "confidence": "low"
+    },
+    {
+      "path": ".rcpt.json",
+      "totalLinesAdded": 8,
+      "aiLinesAdded": 8,
+      "confidence": "high",
+      "aiLines": "1-8"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 8,
+    "totalLinesAdded": 9,
+    "unknownLines": 1,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "none",
+    "command": null
+  },
+  "estimatedCostUsd": {
+    "amount": 0.587947,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T11:18:30.948Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
