@@ -160,8 +160,13 @@ async function attributeCore(
     return !d || roots.some((r) => isUnder(normPath(d), r));
   };
   const repoCmds = sessions.map((s) => s.commandsRun.filter((c) => inWin(c.timestamp) && inRepoCmd(c)));
-  const ranCommit = repoCmds.map((cmds) =>
-    cmds.some((c) => isGitCommit(c.command) && Date.parse(c.timestamp) >= commitTime - 1000),
+  const ranCommit = sessions.map((s) =>
+    s.commandsRun.some(
+      (c) =>
+        inWin(c.timestamp) &&
+        Date.parse(c.timestamp) >= commitTime - 1000 &&
+        gitCommitDirs(c.command, c.cwd).some((d) => d === null || roots.some((r) => isUnder(normPath(d), r))),
+    ),
   );
   const shellWrites = repoCmds.some((cmds) => cmds.some((c) => mayWriteFiles(c.command)));
   const evidence: Evidence[][] = sessions.map((_, i) => {
@@ -286,20 +291,39 @@ async function candidateSessions(o: AttributeOptions, roots: string[], hashes: S
  * `-C <dir>`. Logs record only the session's directory. Unquoted ~ and relative paths are resolved.
  */
 export function effectiveCwd(cmd: string, cwd: string | null, home = os.homedir()): string | null {
+  const segs = commandSegments(cmd, cwd, home);
+  return segs.length ? segs[segs.length - 1]!.dir : finalDir(cmd, cwd, home);
+}
+
+/**
+ * Split a shell line on && || ; and newlines, following `cd` through the whole chain (not only a leading
+ * one: "mkdir x && cd x && git commit" commits in x). `git -C dir` sets the directory for that segment.
+ * A heuristic: quoting and subshells aren't parsed.
+ */
+export function commandSegments(cmd: string, cwd: string | null, home = os.homedir()): { text: string; dir: string | null }[] {
   let dir = cwd;
   const resolve = (p: string) => {
     const t = p.replace(/^["']|["']$/g, '').replace(/^~(?=\/|$)/, home);
     return path.isAbsolute(t) ? path.resolve(t) : dir ? path.resolve(dir, t) : null;
   };
-  let rest = cmd.trimStart();
-  for (;;) {
-    const m = /^cd\s+("[^"]+"|'[^']+'|\S+)\s*(&&|;)\s*/.exec(rest);
-    if (!m) break;
-    dir = resolve(m[1]!);
-    rest = rest.slice(m[0].length);
+  const out: { text: string; dir: string | null }[] = [];
+  for (const raw of cmd.split(/&&|\|\||;|\n/)) {
+    const seg = raw.trim();
+    if (!seg) continue;
+    const cd = /^cd\s+("[^"]+"|'[^']+'|\S+)$/.exec(seg);
+    if (cd) {
+      dir = resolve(cd[1]!);
+      continue;
+    }
+    const gitC = /^(?:\w+=\S*\s+)*git\s+-C\s+("[^"]+"|'[^']+'|\S+)/.exec(seg);
+    out.push({ text: seg, dir: gitC ? resolve(gitC[1]!) : dir });
   }
-  const gitC = /^(?:\w+=\S*\s+)*git\s+-C\s+("[^"]+"|'[^']+'|\S+)/.exec(rest);
-  return gitC ? resolve(gitC[1]!) : dir;
+  return out;
+}
+
+/** Directory after a command made only of `cd`s. */
+function finalDir(cmd: string, cwd: string | null, home: string): string | null {
+  return commandSegments(`${cmd} && :`, cwd, home).at(-1)?.dir ?? cwd;
 }
 
 /** [3,4,5,9] -> "3-5,9" */
@@ -322,9 +346,18 @@ export function fromRanges(r: string): number[] {
   });
 }
 
+const isCommitSegment = (seg: string) => /^\s*(\w+=\S*\s+)*git\b(\s+-[cC]\s+\S+)*\s+commit\b/.test(seg) && !/--dry-run/.test(seg);
+
 /** `git commit` (any flags, including via `git -C dir`), excluding dry runs. */
 export function isGitCommit(cmd: string): boolean {
-  return cmd.split(/&&|\|\||;|\n/).some((seg) => /^\s*(\w+=\S*\s+)*git\b(\s+-[cC]\s+\S+)*\s+commit\b/.test(seg) && !/--dry-run/.test(seg));
+  return cmd.split(/&&|\|\||;|\n/).some(isCommitSegment);
+}
+
+/** Directories in which a command runs `git commit` (null when the session's directory is unknown). */
+export function gitCommitDirs(cmd: string, cwd: string | null, home = os.homedir()): (string | null)[] {
+  return commandSegments(cmd, cwd, home)
+    .filter((s) => isCommitSegment(s.text))
+    .map((s) => s.dir);
 }
 
 /**

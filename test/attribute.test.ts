@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
-import { attributeCommit, effectiveCwd, fromRanges, isGitCommit, mayWriteFiles, summarize, toRanges } from '../src/attribute.js';
+import { attributeCommit, effectiveCwd, fromRanges, gitCommitDirs, isGitCommit, mayWriteFiles, summarize, toRanges } from '../src/attribute.js';
 import { createAdapters } from '../src/adapters/index.js';
 import { DEFAULT_CONFIG, globToRegExp } from '../src/config.js';
 import { costOf, loadPricing, priceFor } from '../src/cost.js';
@@ -126,7 +126,8 @@ describe('attribution (integration)', () => {
     claudeSession(home, {
       id: 'claude-elsewhere',
       cwd: repo,
-      events: [{ t: at(T0, 340), kind: 'bash', command: `cd ${tmpDir('other')} && git commit -m other`, exitCode: 0 }],
+      // The cd comes after another command (as when setting up a scratch repo): still another repo.
+      events: [{ t: at(T0, 340), kind: 'bash', command: `mkdir -p ${tmpDir('other')}/x && cd ${tmpDir('other')} && git init -q && git commit -qm other`, exitCode: 0 }],
     });
     write(path.join(repo, 'CHANGELOG.md'), '# Changelog\n- sum\n- mul\n');
     write(path.join(repo, 'VERSION'), '1.0.0\nbuild 7\n'); // one line from the Write tool, one from somewhere else
@@ -375,6 +376,15 @@ describe('effectiveCwd', () => {
     expect(effectiveCwd('cd sub; cd ../c && make test', abs('/w/a'), '/h')).toBe(abs('/w/a/c'));
     expect(effectiveCwd(`git -C "${abs('/w/other repo')}" commit -m x`, '/w/a', '/h')).toBe(abs('/w/other repo'));
     expect(effectiveCwd('cd rel && ls', null, '/h')).toBeNull();
+    expect(effectiveCwd(`mkdir -p x && cd ${abs('/w/x')} && git status`, abs('/w/a'), '/h')).toBe(abs('/w/x'));
+  });
+
+  it('finds where each git commit in a chain runs', () => {
+    const abs = (p: string) => path.resolve(p);
+    expect(gitCommitDirs(`mkdir -p ~/t && cd ~/t && git init -q && git commit -qm init`, abs('/repo'), abs('/h'))).toEqual([abs('/h/t')]);
+    expect(gitCommitDirs('git add -A && git commit -m x', abs('/repo'), '/h')).toEqual([abs('/repo')]);
+    expect(gitCommitDirs('git commit -m a; cd sub; git commit -m b', abs('/repo'), '/h')).toEqual([abs('/repo'), abs('/repo/sub')]);
+    expect(gitCommitDirs('npm test', abs('/repo'), '/h')).toEqual([]);
   });
 });
 
