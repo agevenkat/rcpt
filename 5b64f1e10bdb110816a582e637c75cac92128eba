@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "5b64f1e10bdb110816a582e637c75cac92128eba",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match",
+        "ran-commit"
+      ],
+      "aiLinesAdded": 141,
+      "estimatedCostUsd": 2.579677
+    },
+    {
+      "id": "9211d2d3-b733-4032-88b8-77cca379414e",
+      "agent": "gemini-cli",
+      "agentVersion": null,
+      "models": [
+        "gemma-4-31b-it"
+      ],
+      "confidence": "low",
+      "evidence": [
+        "time-window"
+      ],
+      "aiLinesAdded": 0,
+      "estimatedCostUsd": null
+    }
+  ],
+  "promptSummary": "install gemini cli on my mac (+2 more)",
+  "filesAttributed": [
+    {
+      "path": "README.md",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "53"
+    },
+    {
+      "path": "docs/log-formats.md",
+      "totalLinesAdded": 44,
+      "aiLinesAdded": 44,
+      "confidence": "high",
+      "aiLines": "11,148,150-153,155,157-162,164-166,168,170-176,178-179,181-183,185,188-190,193-201,203-204"
+    },
+    {
+      "path": "src/adapters/gemini-cli.ts",
+      "totalLinesAdded": 66,
+      "aiLinesAdded": 66,
+      "confidence": "high",
+      "aiLines": "1,5,8-12,14,27,41-79,81-82,84-85,87,89,91-101,103"
+    },
+    {
+      "path": "test/adapters.test.ts",
+      "totalLinesAdded": 19,
+      "aiLinesAdded": 19,
+      "confidence": "high",
+      "aiLines": "142-147,149-160,163"
+    },
+    {
+      "path": "test/fixtures/home/.gemini/tmp/demo-repo/.project_root",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "1"
+    },
+    {
+      "path": "test/fixtures/home/.gemini/tmp/demo-repo/chats/session-2026-11-02T10-16-5555aaaa.jsonl",
+      "totalLinesAdded": 9,
+      "aiLinesAdded": 9,
+      "confidence": "high",
+      "aiLines": "1-9"
+    },
+    {
+      "path": "test/util.test.ts",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "100"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 141,
+    "totalLinesAdded": 141,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "passed",
+    "command": "G=test/fixtures/home/.gemini/tmp/demo-repo && mkdir -p $G/chats && printf '/tmp/demo-repo' > $G/.project_root && cat > $G/chats/session-2026-11-02T10-16-5555aaaa.jsonl <<'EOF'\n{\"sessionId\":\"55555555-5555-4555-8555-555555555555\",\"projectHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"startTime\":\"2026-11-02T10:16:00.000Z\",\"lastUpdated\":\"2026-11-02T10:16:00.000Z\",\"kind\":\"main\"}\n{\"id\":\"u1\",\"timestamp\":\"2026-11-02T10:16:01.000Z\",\"type\":\"user\",\"content\":[{\"text\":\"Add a divide function. token: [REDACTED:github-token]\"}]}\n{\"$set\":{\"lastUpdated\":\"2026-11-02T10:16:01.000Z\"}}\n{\"id\":\"i1\",\"timestamp\":\"2026-11-02T10:16:02.000Z\",\"type\":\"info\",\"content\":\"Authentication [REDACTED:secret]\"}\n{\"$set\":{\"lastUpdated\":\"2026-11-02T10:16:02.000Z\"}}\n{\"id\":\"g1\",\"timestamp\":\"2026-11-02T10:16:05.000Z\",\"type\":\"gemini\",\"model\":\"gemini-3.8-flash\",\"content\":\"Working on it\",\"tokens\":{\"input\":100,\"output\":10,\"cached\":0,\"thoughts\":0,\"tool\":0,\"total\":110}}\n{\"id\":\"g1\",\"timestamp\":\"2026-11-02T10:16:06.000Z\",\"type\":\"gemini\",\"model\":\"gemini-3.8-flash\",\"content\":\"Done.\",\"tokens\":{\"input\":1200,\"output\":80,\"cached\":200,\"thoughts\":20,\"tool\":0,\"total\":1300},\"toolCalls\":[{\"id\":\"c1\",\"name\":\"write_file\",\"status\":\"success\",\"timestamp\":\"2026-11-02T10:16:05.500Z\",\"args\":{\"file_path\":\"/tmp/demo-repo/div.js\",\"content\":\"export const div = (a, b) => a / b;\\n\"}}]}\n{\"$set\":{\"lastUpdated\":\"2026-11-02T10:16:06.000Z\",\"newField\":1}}\n{\"id\":\"u2\",\"timestamp\":\"2026-11-02T10:16:0\nEOF\npython3 - <<'EOF'\np='/Users/venkateshage/Downloads/vage-git/agentledger/test/adapters.test.ts'; s=open(p).read()\na=\"\"\"  it('parses a documented-format chat file', async () => {\n    const { session: s, warnings, skippedEvents } = await parseOnly('gemini-cli');\"\"\"\nb=\"\"\"  async function byName(part: string) {\n    const a = adapter('gemini-cli');\n    const refs = await a.listSessions();\n    expect(refs).toHaveLength(2);\n    return a.parseSession(refs.find((r) => r.path.includes(part))!.path);\n  }\n\n  it('parses the 0.66 JSONL layout (observed envelope) and reads .project_root', async () => {\n    const { session: s, warnings, skippedEvents } = await byName('5555aaaa');\n    expect(s!.id).toBe('55555555-5555-4555-8555-555555555555');\n    expect(s!.cwd).toBe('/tmp/demo-repo');\n    expect(s!.prompts.map((p) => p.text)).toEqual(['Add a divide function. token: [REDACTED:github-token]']);\n    // A message rewritten under the same id counts once (the last version).\n    expect(s!.tokenUsage).toEqual({ 'gemini-3.8-flash': { input: 1000, output: 100, cacheRead: 200, cacheWrite: 0, cacheWrite1h: 0 } });\n    expect(s!.fileEdits.map((e) => [path.basename(e.path), e.kind, e.linesAdded])).toEqual([['div.js', 'create', 1]]);\n    expect(s!.endedAt).toBe('2026-11-02T10:16:06.000Z');\n    expect(warnings).toEqual([expect.objectContaining({ message: 'skipped unparseable line' })]);\n    expect(skippedEvents).toMatchObject({ 'message:info': 1, '$set:newField': 1 });\n  });\n\n  it('parses a documented-format chat file', async () => {\n    const { session: s, warnings, skippedEvents } = await byName('abcd1234');\"\"\"\nassert a in s; s=s.replace(a,b)\nopen(p,'w').write(s)\np='/Users/venkateshage/Downloads/vage-git/agentledger/test/util.test.ts'; s=open(p).read()\na=\"expect(by['gemini-cli']).toMatchObject({ detected: true, verified: false, parsed: 1 });\"\nif a not in s: a=\"expect(by[\\\"gemini-cli\\\"]).toMatchObject({ detected: true, verified: false, parsed: 1 });\"\nimport re\ns=re.sub(r\"expect\\(by(\\.gemini-cli|\\['gemini-cli'\\])\\)\\.toMatchObject\\(\\{ detected: true, verified: false, parsed: 1 \\}\\);\",\"expect(by['gemini-cli']).toMatchObject({ detected: true, verified: false, parsed: 2 });\",s)\nopen(p,'w').write(s)\nEOF\ngrep -n \"gemini-cli\" test/util.test.ts; npx vitest run 2>&1 | grep -E \"×|Tests |AssertionError\" | head"
+  },
+  "estimatedCostUsd": {
+    "amount": 2.579677,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T10:56:43.532Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
