@@ -1,0 +1,28 @@
+{
+  "sessionId": "44444444-4444-4444-8444-444444444444",
+  "projectHash": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+  "startTime": "2026-10-01T13:00:00.000Z",
+  "lastUpdated": "2026-10-01T13:05:00.000Z",
+  "messages": [
+    { "id": "m1", "timestamp": "2026-10-01T13:00:00.000Z", "type": "user", "content": "Add a multiply function. password=hunter2hunter2" },
+    {
+      "id": "m2", "timestamp": "2026-10-01T13:00:10.000Z", "type": "gemini", "model": "gemini-3-pro",
+      "content": "Done.",
+      "tokens": { "input": 2000, "output": 150, "cached": 500, "thoughts": 50, "tool": 0, "total": 2200 },
+      "toolCalls": [
+        { "id": "c1", "name": "write_file", "status": "success", "timestamp": "2026-10-01T13:00:05.000Z",
+          "args": { "file_path": "/tmp/demo-repo/mul.js", "content": "export const mul = (a, b) => a * b;\n" } },
+        { "id": "c2", "name": "replace", "status": "success", "timestamp": "2026-10-01T13:00:06.000Z",
+          "args": { "file_path": "/tmp/demo-repo/README.md", "old_string": "# Demo", "new_string": "# Demo\nMultiply too." } },
+        { "id": "c3", "name": "replace", "status": "error", "timestamp": "2026-10-01T13:00:06.500Z",
+          "args": { "file_path": "/tmp/demo-repo/nope.js", "old_string": "x", "new_string": "y" } },
+        { "id": "c4", "name": "run_shell_command", "status": "success", "timestamp": "2026-10-01T13:00:07.000Z",
+          "args": { "command": "npm test", "directory": "/tmp/demo-repo" },
+          "result": [{ "functionResponse": { "response": { "output": "Command: npm test\nExit Code: 0" } } }] },
+        { "id": "c5", "name": "google_web_search", "status": "success", "args": { "query": "x" } }
+      ]
+    },
+    { "id": "m3", "timestamp": "2026-10-01T13:01:00.000Z", "type": "info", "content": "something informational" },
+    "not-an-object"
+  ]
+}

@@ -1,0 +1,26 @@
+name: rcpt PR summary
+description: Summarize rcpt receipts (which AI agents wrote which lines, tests, est. cost) for a pull request in one comment.
+author: rcpt
+branding:
+  icon: file-text
+  color: blue
+inputs:
+  github-token:
+    description: Token used to list PR commits and post the comment.
+    default: ${{ github.token }}
+  remote:
+    description: Remote to fetch refs/notes/rcpt from.
+    default: origin
+  comment:
+    description: 'Post or update a PR comment ("false" writes only the job summary).'
+    default: "true"
+outputs:
+  summary:
+    description: 'One-line summary, e.g. "🧾 rcpt: 3 of 4 commits AI-assisted · claude-code · 68% of added lines · tests ✅ · est. $1.12"'
+  ai-assisted-commits:
+    description: Number of AI-assisted commits in the PR.
+  ai-share:
+    description: AI share of attributable added lines (0–1), empty when unknown.
+runs:
+  using: node24
+  main: dist/index.js

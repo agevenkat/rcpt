@@ -1,0 +1,50 @@
+{
+  "name": "rcpt",
+  "version": "0.1.0",
+  "description": "rcpt: receipts for AI-written code.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "rcpt": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.15"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint",
+    "test": "vitest run",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "prepublishOnly": "npm run check && npm run build",
+    "dev": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "commander": "^15.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.4",
+    "@types/node": "^22.20.5",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "keywords": [
+    "ai",
+    "git",
+    "receipts",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "attribution",
+    "git-notes"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agevenkat/rcpt.git"
+  }
+}
