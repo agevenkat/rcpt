@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "dcbf7d94f564cf98697174567995432d41d37228",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match"
+      ],
+      "aiLinesAdded": 51,
+      "estimatedCostUsd": 1.027042
+    },
+    {
+      "id": "9211d2d3-b733-4032-88b8-77cca379414e",
+      "agent": "gemini-cli",
+      "agentVersion": null,
+      "models": [
+        "gemma-4-31b-it"
+      ],
+      "confidence": "low",
+      "evidence": [
+        "time-window"
+      ],
+      "aiLinesAdded": 0,
+      "estimatedCostUsd": null
+    }
+  ],
+  "promptSummary": "go",
+  "filesAttributed": [
+    {
+      "path": "src/attribute.ts",
+      "totalLinesAdded": 40,
+      "aiLinesAdded": 40,
+      "confidence": "high",
+      "aiLines": "163-169,294-296,298-303,309-319,321-322,324-326,349,353-354,356-360"
+    },
+    {
+      "path": "test/attribute.test.ts",
+      "totalLinesAdded": 11,
+      "aiLinesAdded": 11,
+      "confidence": "high",
+      "aiLines": "4,129-130,379-380,382-387"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 51,
+    "totalLinesAdded": 51,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "none",
+    "command": null
+  },
+  "estimatedCostUsd": {
+    "amount": 1.027042,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T11:07:39.051Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
