@@ -12,11 +12,11 @@ inputs:
     description: Remote to fetch refs/notes/rcpt from.
     default: origin
   comment:
-    description: Post/update a PR comment ("false" writes only the job summary).
+    description: 'Post or update a PR comment ("false" writes only the job summary).'
     default: "true"
 outputs:
   summary:
-    description: One-line summary, e.g. "🧾 rcpt: 3 of 4 commits AI-assisted · claude-code · 68% of added lines · tests ✅ · est. $1.12"
+    description: 'One-line summary, e.g. "🧾 rcpt: 3 of 4 commits AI-assisted · claude-code · 68% of added lines · tests ✅ · est. $1.12"'
   ai-assisted-commits:
     description: Number of AI-assisted commits in the PR.
   ai-share:
