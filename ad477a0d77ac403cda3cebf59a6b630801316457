@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "ad477a0d77ac403cda3cebf59a6b630801316457",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match",
+        "ran-commit"
+      ],
+      "aiLinesAdded": 13,
+      "estimatedCostUsd": 1.039949
+    },
+    {
+      "id": "9211d2d3-b733-4032-88b8-77cca379414e",
+      "agent": "gemini-cli",
+      "agentVersion": null,
+      "models": [
+        "gemma-4-31b-it"
+      ],
+      "confidence": "low",
+      "evidence": [
+        "time-window"
+      ],
+      "aiLinesAdded": 0,
+      "estimatedCostUsd": null
+    }
+  ],
+  "promptSummary": "ok, you can continue with other task now",
+  "filesAttributed": [
+    {
+      "path": ".github/workflows/rcpt.yml",
+      "totalLinesAdded": 12,
+      "aiLinesAdded": 12,
+      "confidence": "high",
+      "aiLines": "1-2,4,6-8,10-15"
+    },
+    {
+      "path": "README.md",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "5"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 13,
+    "totalLinesAdded": 13,
+    "unknownLines": 0,
+    "ignoredLines": 0
+  },
+  "testsRun": {
+    "status": "none",
+    "command": null
+  },
+  "estimatedCostUsd": {
+    "amount": 1.039949,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T10:56:44.027Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
