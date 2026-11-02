@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "commitSha": "a299d0bbb1ea6cb93a4cd48c536eca1cf292f935",
+  "aiAssisted": true,
+  "confidence": "high",
+  "sessions": [
+    {
+      "id": "79d77c0d-4fbe-4a16-897e-8a1a4052a17d",
+      "agent": "claude-code",
+      "agentVersion": "2.1.316",
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "line-match",
+        "file-match",
+        "ran-commit"
+      ],
+      "aiLinesAdded": 50,
+      "estimatedCostUsd": 2.435151
+    }
+  ],
+  "promptSummary": "i run the code",
+  "filesAttributed": [
+    {
+      "path": "src/attribute.ts",
+      "totalLinesAdded": 6,
+      "aiLinesAdded": 6,
+      "confidence": "high",
+      "aiLines": "8,110-111,118-119,282"
+    },
+    {
+      "path": "src/git.ts",
+      "totalLinesAdded": 2,
+      "aiLinesAdded": 2,
+      "confidence": "high",
+      "aiLines": "3,6"
+    },
+    {
+      "path": "src/notes.ts",
+      "totalLinesAdded": 16,
+      "aiLinesAdded": 16,
+      "confidence": "high",
+      "aiLines": "72-84,90,94,124"
+    },
+    {
+      "path": "test/git-hooks.test.ts",
+      "totalLinesAdded": 1,
+      "aiLinesAdded": 1,
+      "confidence": "high",
+      "aiLines": "287"
+    },
+    {
+      "path": "test/report.test.ts",
+      "totalLinesAdded": 25,
+      "aiLinesAdded": 25,
+      "confidence": "high",
+      "aiLines": "7,10,96-118"
+    }
+  ],
+  "totals": {
+    "aiLinesAdded": 50,
+    "totalLinesAdded": 50,
+    "unknownLines": 0,
+    "ignoredLines": 2
+  },
+  "testsRun": {
+    "status": "passed",
+    "command": "python3 - <<'EOF'\np='test/report.test.ts'; s=open(p).read()\ns+=\"\"\"\ndescribe('notes without a configured git identity', () => {\n  it('falls back to an rcpt identity instead of failing (fresh machines, CI)', async () => {\n    const repo = tmpDir('noident');\n    initRepo(repo);\n    write(path.join(repo, 'a.txt'), 'a\\\\n');\n    const sha = commitAt(repo, new Date('2026-10-01T00:00:00Z'), 'a');\n    gitIn(repo, ['config', 'user.useConfigOnly', 'true']);\n    const saved = { g: process.env.GIT_CONFIG_GLOBAL, s: process.env.GIT_CONFIG_NOSYSTEM };\n    process.env.GIT_CONFIG_GLOBAL = path.join(tmpDir('emptycfg'), 'none');\n    process.env.GIT_CONFIG_NOSYSTEM = '1';\n    for (const k of ['GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL']) delete process.env[k];\n    try {\n      const r = await attributeCommit({ repoDir: repo, rev: sha, adapters: [], config: DEFAULT_CONFIG, pricing: loadPricing() });\n      await writeReceipt(repo, sha, r);\n      expect(readReceipt(repo, sha)?.commitSha).toBe(sha);\n      expect(gitIn(repo, ['log', '-1', '--format=%an <%ae>', 'refs/notes/rcpt']).trim()).toBe('rcpt <rcpt@localhost>');\n    } finally {\n      process.env.GIT_CONFIG_GLOBAL = saved.g;\n      if (saved.s === undefined) delete process.env.GIT_CONFIG_NOSYSTEM;\n      else process.env.GIT_CONFIG_NOSYSTEM = saved.s;\n    }\n  });\n});\n\"\"\"\ns=s.replace(\"import { writeReceipt } from '../src/notes.js';\",\"import { readReceipt, writeReceipt } from '../src/notes.js';\")\ns=s.replace(\"import { at, claudeSession, commitAt, initRepo, tmpDir, write } from './helpers.js';\",\"import { at, claudeSession, commitAt, gitIn, initRepo, tmpDir, write } from './helpers.js';\")\nopen(p,'w').write(s)\nEOF\nnpx tsc --noEmit && npx biome lint 2>&1 | grep -E \"error|Found [0-9]+ error\"; npx tsup >/dev/null 2>&1; git status --short; npx vitest run 2>&1 | grep -E \"×|Tests \""
+  },
+  "estimatedCostUsd": {
+    "amount": 2.435151,
+    "confidence": "medium",
+    "unpricedModels": [],
+    "pricingVersion": "2026-11-02"
+  },
+  "humanEditedAfterAi": false,
+  "isMerge": false,
+  "createdAt": "2026-11-02T10:56:43.353Z",
+  "generator": {
+    "name": "rcpt",
+    "version": "0.1.0"
+  }
+}
