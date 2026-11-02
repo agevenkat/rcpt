@@ -1,0 +1,41 @@
+{
+  "version": "2026-11-02",
+  "unit": "USD per 1M tokens",
+  "notes": [
+    "List prices for standard (non-batch, non-fast) processing at the short-context tier.",
+    "Values marked in 'derived' were not published per model; they use the provider's standard multiplier.",
+    "Anthropic cache writes: 5-minute = 1.25x input, 1-hour = 2x input. OpenAI and Google bill cache writes as normal input; Google cache storage fees are not included."
+  ],
+  "sources": {
+    "anthropic": "Anthropic model table via Claude API docs (cached 2026-10-06)",
+    "openai": "https://developers.openai.com/api/docs/pricing (fetched 2026-11-02)",
+    "google": "https://ai.google.dev/gemini-api/docs/pricing (fetched 2026-11-02)"
+  },
+  "models": {
+    "claude-fable-5-1":   { "input": 10,  "output": 50,  "cacheRead": 0.25,  "cacheWrite": 12.5,  "cacheWrite1h": 20,  "derived": ["cacheWrite", "cacheWrite1h"] },
+    "claude-fable-5":     { "input": 10,  "output": 50,  "cacheRead": 1.0,   "cacheWrite": 12.5,  "cacheWrite1h": 20,  "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-opus-5-5":    { "input": 4,   "output": 20,  "cacheRead": 0.2,   "cacheWrite": 5,     "cacheWrite1h": 8,   "derived": ["cacheWrite", "cacheWrite1h"] },
+    "claude-opus-5":      { "input": 5,   "output": 25,  "cacheRead": 0.5,   "cacheWrite": 6.25,  "cacheWrite1h": 10,  "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-opus-4-8":    { "input": 5,   "output": 25,  "cacheRead": 0.5,   "cacheWrite": 6.25,  "cacheWrite1h": 10,  "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-opus-4-7":    { "input": 5,   "output": 25,  "cacheRead": 0.5,   "cacheWrite": 6.25,  "cacheWrite1h": 10,  "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-opus-4-6":    { "input": 5,   "output": 25,  "cacheRead": 0.5,   "cacheWrite": 6.25,  "cacheWrite1h": 10,  "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-sonnet-5-5":  { "input": 2,   "output": 10,  "cacheRead": 0.2,   "cacheWrite": 2.5,   "cacheWrite1h": 4,   "derived": ["cacheWrite", "cacheWrite1h"] },
+    "claude-sonnet-5":    { "input": 2,   "output": 10,  "cacheRead": 0.2,   "cacheWrite": 2.5,   "cacheWrite1h": 4,   "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-sonnet-4-6":  { "input": 3,   "output": 15,  "cacheRead": 0.3,   "cacheWrite": 3.75,  "cacheWrite1h": 6,   "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-haiku-5-5":   { "input": 0.1, "output": 0.5, "cacheRead": 0.01,  "cacheWrite": 0.125, "cacheWrite1h": 0.2, "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+    "claude-haiku-4-5":   { "input": 1,   "output": 5,   "cacheRead": 0.1,   "cacheWrite": 1.25,  "cacheWrite1h": 2,   "derived": ["cacheRead", "cacheWrite", "cacheWrite1h"] },
+
+    "gpt-6-luna":         { "input": 0.1,  "output": 0.5, "cacheRead": 0.01,  "cacheWrite": 0.1,  "cacheWrite1h": 0.1 },
+    "gpt-5.6-terra":      { "input": 2,    "output": 12,  "cacheRead": 0.2,   "cacheWrite": 2,    "cacheWrite1h": 2 },
+    "gpt-5.4":            { "input": 2.5,  "output": 15,  "cacheRead": 0.25,  "cacheWrite": 2.5,  "cacheWrite1h": 2.5 },
+    "gpt-5.3-codex":      { "input": 1.75, "output": 14,  "cacheRead": 0.175, "cacheWrite": 1.75, "cacheWrite1h": 1.75 },
+    "gpt-5.2":            { "input": 1.75, "output": 14,  "cacheRead": 0.175, "cacheWrite": 1.75, "cacheWrite1h": 1.75 },
+
+    "gemini-3.1-pro-preview": { "input": 2,    "output": 12,   "cacheRead": 0.2,   "cacheWrite": 2,    "cacheWrite1h": 2 },
+    "gemini-3.8-flash":       { "input": 0.75, "output": 3.75, "cacheRead": 0.075, "cacheWrite": 0.75, "cacheWrite1h": 0.75 },
+    "gemini-3.6-flash":       { "input": 0.75, "output": 3.75, "cacheRead": 0.075, "cacheWrite": 0.75, "cacheWrite1h": 0.75 },
+    "gemini-3-flash-preview": { "input": 0.5,  "output": 3,    "cacheRead": 0.05,  "cacheWrite": 0.5,  "cacheWrite1h": 0.5 },
+    "gemini-2.5-pro":         { "input": 1.25, "output": 10,   "cacheRead": 0.125, "cacheWrite": 1.25, "cacheWrite1h": 1.25 },
+    "gemini-2.5-flash":       { "input": 0.3,  "output": 2.5,  "cacheRead": 0.03,  "cacheWrite": 0.3,  "cacheWrite1h": 0.3 }
+  }
+}

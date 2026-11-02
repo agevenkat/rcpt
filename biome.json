@@ -1,0 +1,14 @@
+{
+  "formatter": { "enabled": false },
+  "assist": { "enabled": false },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": { "noNonNullAssertion": "off", "useTemplate": "off" },
+      "complexity": { "noForEach": "off" },
+      "suspicious": { "noControlCharactersInRegex": "off" }
+    }
+  },
+  "files": { "includes": ["src/**", "test/**", "action/src/**", "!test/fixtures"] }
+}
